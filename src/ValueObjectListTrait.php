@@ -18,7 +18,7 @@ trait ValueObjectListTrait
     /** @var Vector */
     private $compositeVector;
 
-    /** @var null|string */
+    /** @var callable */
     private $itemType;
 
     public function has(int $index): bool
@@ -41,7 +41,7 @@ trait ValueObjectListTrait
         return $copy;
     }
 
-    /** @throws InvalidArgumentException */
+    /** @throws \InvalidArgumentException */
     public function unshift(ValueObjectInterface $item): ValueObjectListInterface
     {
         $this->assertItemType($item);
@@ -105,15 +105,21 @@ trait ValueObjectListTrait
         return $this->compositeVector->getIterator();
     }
 
-    public function getItemType(): ?string
+    private static function getItemType(): callable
     {
-        return $this->itemType;
+        $classReflection = new \ReflectionClass(static::class);
+        if (!preg_match('#@type\s+(?<type>.+)#', $classReflection->getDocComment(), $matches)) {
+            throw new \RuntimeException('Missing @type annotation on '.static::class);
+        }
+        $callable = array_map('trim', explode('::', $matches['type']));
+        Assertion::isCallable($callable);
+        return $callable;
     }
 
-    private function init(iterable $items, string $itemType): void
+    private function init(iterable $items): void
     {
-        Assertion::notEmpty($itemType);
-        $this->itemType = $itemType;
+        //@todo check if already initialized
+        $this->itemType = static::getItemType();
         foreach ($items as $index => $item) {
             $this->assertItemIndex($index);
             $this->assertItemType($item);
@@ -136,15 +142,11 @@ trait ValueObjectListTrait
     /** @param mixed $item */
     private function assertItemType($item): void
     {
-        if (empty($this->itemType)) {
-            throw new \RuntimeException('Item type has not been specified.');
-        }
-
-        if (!is_a($item, $this->itemType)) {
+        if (!is_a($item, $this->itemType[0])) {
             throw new \InvalidArgumentException(sprintf(
                 'Invalid item type given to %s. Expected %s but was given %s.',
                 static::class,
-                $this->itemType,
+                $this->itemType[0],
                 is_object($item) ? get_class($item) : @gettype($item)
             ));
         }
@@ -153,6 +155,11 @@ trait ValueObjectListTrait
     private function __clone()
     {
         $this->compositeVector = new Vector($this->compositeVector->toArray());
+    }
+
+    private function __construct(iterable $items = [])
+    {
+        $this->init($items);
     }
 
     public static function makeEmpty(): ValueObjectListInterface
@@ -177,17 +184,20 @@ trait ValueObjectListTrait
         if (is_null($payload)) {
             return static::makeEmpty();
         }
+
         $objects = [];
+        $itemType = static::getItemType();
         foreach ($payload as $object) {
-            $objects[] = call_user_func([$this->itemType, 'fromNative'], $object);
+            $objects[] = call_user_func($itemType, $object);
         }
+
         return static::wrap($objects);
     }
 
     public function toNative(): array
     {
-        return $this->compositeVector->map(function (ValueObjectInterface $object): array {
-            return (array)$object->toNative();
+        return $this->compositeVector->map(function (ValueObjectInterface $object) {
+            return $object->toNative();
         })->toArray();
     }
 
