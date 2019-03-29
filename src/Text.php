@@ -24,10 +24,10 @@ final class Text implements ValueObjectInterface
         return is_null($value) ? new self : new self($value);
     }
 
-    /** @param self $value */
-    public function equals($value): bool
+    /** @param self $comparator */
+    public function equals($comparator): bool
     {
-        return $value instanceof self && $this->toNative() === $value->toNative();
+        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
     }
 
     public function toNative(): string

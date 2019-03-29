@@ -61,10 +61,10 @@ final class Url implements ValueObjectInterface
         );
     }
 
-    /** @param self $value */
-    public function equals($value): bool
+    /** @param self $comparator */
+    public function equals($comparator): bool
     {
-        return $value instanceof self && $value->toNative() === $this->toNative();
+        return $comparator instanceof self && $comparator->toNative() === $this->toNative();
     }
 
     public function __toString(): string

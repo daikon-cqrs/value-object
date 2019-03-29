@@ -18,7 +18,7 @@ trait ValueObjectListTrait
     /** @var Vector */
     private $compositeVector;
 
-    /** @var string */
+    /** @var null|string */
     private $itemType;
 
     public function has(int $index): bool
@@ -105,7 +105,7 @@ trait ValueObjectListTrait
         return $this->compositeVector->getIterator();
     }
 
-    public function getItemType(): string
+    public function getItemType(): ?string
     {
         return $this->itemType;
     }
@@ -191,14 +191,15 @@ trait ValueObjectListTrait
         })->toArray();
     }
 
-    public function equals(ValueObjectListInterface $list): bool
+    /** @param self $comparator */
+    public function equals($comparator): bool
     {
-        if (!$list instanceof static || $this->count() !== $list->count()) {
+        if (!$comparator instanceof static || $this->count() !== $comparator->count()) {
             return false;
         }
         /** @var ValueObjectInterface $object */
         foreach ($this->compositeVector as $index => $object) {
-            if (!$object->equals($list->get($index))) {
+            if (!$object->equals($comparator->get($index))) {
                 return false;
             }
         }

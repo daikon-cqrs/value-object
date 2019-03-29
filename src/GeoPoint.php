@@ -15,7 +15,7 @@ use Assert\Assertion;
 final class GeoPoint implements ValueObjectInterface
 {
     /** @var float[] */
-    public const NULL_ISLAND = [ 'lon' => 0.0, 'lat' => 0.0 ];
+    public const NULL_ISLAND = ['lon' => 0.0, 'lat' => 0.0];
 
     /** @var FloatValue */
     private $lon;
@@ -40,13 +40,13 @@ final class GeoPoint implements ValueObjectInterface
 
     public function toNative(): array
     {
-        return [ 'lon' => $this->lon->toNative(), 'lat' => $this->lat->toNative() ];
+        return ['lon' => $this->lon->toNative(), 'lat' => $this->lat->toNative()];
     }
 
-    /** @param self $value */
-    public function equals($value): bool
+    /** @param self $comparator */
+    public function equals($comparator): bool
     {
-        return $value instanceof self && $this->toNative() == $value->toNative();
+        return $comparator instanceof self && $this->toNative() == $comparator->toNative();
     }
 
     public function __toString(): string

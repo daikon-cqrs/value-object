@@ -15,7 +15,7 @@ use Daikon\Interop\ToNativeInterface;
 
 interface ValueObjectInterface extends FromNativeInterface, ToNativeInterface
 {
-    public function equals($value): bool;
+    public function equals($comparator): bool;
 
     public function __toString(): string;
 }

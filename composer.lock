@@ -67,12 +67,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "dd9710e681224ac1b6f165d1e43a5e58da2465cd"
+                "reference": "e1a6c171b6bf4899527b75595226f925adb1198a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/dd9710e681224ac1b6f165d1e43a5e58da2465cd",
-                "reference": "dd9710e681224ac1b6f165d1e43a5e58da2465cd",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/e1a6c171b6bf4899527b75595226f925adb1198a",
+                "reference": "e1a6c171b6bf4899527b75595226f925adb1198a",
                 "shasum": ""
             },
             "require": {
@@ -92,9 +92,9 @@
             "license": [
                 "MPL-2.0"
             ],
-            "description": "Interop traits used across Daikon components.",
+            "description": "Interop components used across Daikon components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2019-03-28T22:15:07+00:00"
+            "time": "2019-03-29T12:31:44+00:00"
         },
         {
             "name": "paragonie/random_compat",
