@@ -17,6 +17,16 @@ final class IntValue implements ValueObjectInterface
     /** @var int|null */
     private $value;
 
+    public function isZero(): bool
+    {
+        return $this->value === 0;
+    }
+
+    public function isNull(): bool
+    {
+        return is_null($this->value);
+    }
+
     /** @param int|string|null $value  */
     public static function fromNative($value): IntValue
     {
