@@ -24,7 +24,7 @@ final class DateTest extends TestCase
     {
         $sameDate = Date::fromNative(self::DATE);
         $this->assertTrue($this->date->equals($sameDate));
-        $sameDateOtherFormat = Date::createFromString('2016-07-04T19:27:07', 'Y-m-d\\TH:i:s');
+        $sameDateOtherFormat = Date::fromString('2016-07-04T19:27:07', 'Y-m-d\\TH:i:s');
         $this->assertTrue($this->date->equals($sameDateOtherFormat));
         $differentDate = Date::fromNative('2017-08-10');
         $this->assertFalse($this->date->equals($differentDate));

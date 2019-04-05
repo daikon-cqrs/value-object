@@ -26,9 +26,9 @@ final class TimestampTest extends TestCase
 
     public function testEquals(): void
     {
-        $equalTs = Timestamp::createFromString('2016-07-04T17:27:07', 'Y-m-d\\TH:i:s');
+        $equalTs = Timestamp::fromString('2016-07-04T17:27:07', 'Y-m-d\\TH:i:s');
         $this->assertTrue($this->timestamp->equals($equalTs));
-        $differentTs = Timestamp::createFromString('2017-08-04T17:27:07', 'Y-m-d\\TH:i:s');
+        $differentTs = Timestamp::fromString('2017-08-04T17:27:07', 'Y-m-d\\TH:i:s');
         $this->assertFalse($this->timestamp->equals($differentTs));
     }
 
@@ -46,8 +46,8 @@ final class TimestampTest extends TestCase
     public function testIsBefore()
     {
         $nullTs = Timestamp::fromNative(null);
-        $earlyTs = Timestamp::createFromString(self::FIXED_TIMESTAMP_UTC);
-        $lateTs = Timestamp::createFromString(self::FIXED_LATE_TIMESTAMP_UTC);
+        $earlyTs = Timestamp::fromString(self::FIXED_TIMESTAMP_UTC);
+        $lateTs = Timestamp::fromString(self::FIXED_LATE_TIMESTAMP_UTC);
         $this->assertTrue($nullTs->isBefore($earlyTs));
         $this->assertFalse($earlyTs->isBefore($nullTs));
         $this->assertTrue($earlyTs->isBefore($lateTs));
@@ -57,8 +57,8 @@ final class TimestampTest extends TestCase
     public function testIsAfter()
     {
         $nullTs = Timestamp::fromNative(null);
-        $earlyTs = Timestamp::createFromString(self::FIXED_TIMESTAMP_UTC);
-        $lateTs = Timestamp::createFromString(self::FIXED_LATE_TIMESTAMP_UTC);
+        $earlyTs = Timestamp::fromString(self::FIXED_TIMESTAMP_UTC);
+        $lateTs = Timestamp::fromString(self::FIXED_LATE_TIMESTAMP_UTC);
         $this->assertFalse($nullTs->isAfter($earlyTs));
         $this->assertTrue($earlyTs->isAfter($nullTs));
         $this->assertFalse($earlyTs->isAfter($lateTs));

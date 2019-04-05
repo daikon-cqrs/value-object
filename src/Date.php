@@ -26,7 +26,7 @@ final class Date implements ValueObjectInterface
         return new self(new DateTimeImmutable);
     }
 
-    public static function createFromString(string $value, string $format = self::NATIVE_FORMAT): self
+    public static function fromString(string $value, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($value, $format);
         if (!$date = DateTimeImmutable::createFromFormat($format, $value)) {
@@ -39,7 +39,7 @@ final class Date implements ValueObjectInterface
     public static function fromNative($value): Date
     {
         Assertion::nullOrString($value, 'Trying to create Date VO from unsupported value type.');
-        return empty($value) ? new self : self::createFromString($value);
+        return empty($value) ? new self : self::fromString($value);
     }
 
     public function toNative(): ?string

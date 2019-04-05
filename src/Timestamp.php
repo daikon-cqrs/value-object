@@ -27,7 +27,15 @@ final class Timestamp implements ValueObjectInterface
         return new self(new DateTimeImmutable);
     }
 
-    public static function createFromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
+    /** @param int|string $time */
+    public static function fromTime($time): Timestamp
+    {
+        Assertion::integerish($time, 'Unix time must be an integer.');
+        Assertion::greaterOrEqualThan((int)$time, 0, 'Unix time must be greater or equal than 0.');
+        return new self(new DateTimeImmutable("@$time"));
+    }
+
+    public static function fromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
     {
         Assertion::date($date, $format);
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
@@ -40,7 +48,7 @@ final class Timestamp implements ValueObjectInterface
     public static function fromNative($value): Timestamp
     {
         Assertion::nullOrString($value, 'Trying to create Timestamp VO from unsupported value type.');
-        return empty($value) ? new self : self::createFromString($value);
+        return empty($value) ? new self : self::fromString($value);
     }
 
     public function toNative(): ?string
