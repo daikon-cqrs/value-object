@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Daikon\ValueObject;
 
-interface ValueObjectListInterface extends ValueObjectInterface
+interface ValueObjectListInterface extends ValueObjectInterface, \IteratorAggregate, \Countable
 {
     public static function makeEmpty(): ValueObjectListInterface;
 

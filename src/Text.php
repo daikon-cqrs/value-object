@@ -18,7 +18,7 @@ final class Text implements ValueObjectInterface
     private $value;
 
     /** @param string|null $value */
-    public static function fromNative($value): Text
+    public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Text VO from unsupported value type.');
         return is_null($value) ? new self : new self($value);
@@ -27,7 +27,8 @@ final class Text implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function toNative(): string

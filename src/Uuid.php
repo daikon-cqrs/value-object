@@ -19,13 +19,13 @@ final class Uuid implements ValueObjectInterface
     /** @var UuidInterface|null */
     private $value;
 
-    public static function generate(): Uuid
+    public static function generate(): self
     {
         return new self(RamseyUuid::uuid4());
     }
 
     /** @param string|null $value */
-    public static function fromNative($value): Uuid
+    public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Uuid VO from unsupported value type.');
         return empty($value) ? new self : new self(RamseyUuid::fromString($value));
@@ -34,7 +34,8 @@ final class Uuid implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function toNative(): ?string

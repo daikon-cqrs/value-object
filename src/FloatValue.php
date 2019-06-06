@@ -18,7 +18,7 @@ final class FloatValue implements ValueObjectInterface
     private $value;
 
     /** @param float|string|null $value */
-    public static function fromNative($value): FloatValue
+    public static function fromNative($value): self
     {
         $value = $value === '' ? null : $value;
         Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
@@ -34,12 +34,13 @@ final class FloatValue implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function __toString(): string
     {
-        return $this->value ? (string) $this->value : 'null';
+        return $this->value ? (string)$this->value : 'null';
     }
 
     private function __construct(?float $value)

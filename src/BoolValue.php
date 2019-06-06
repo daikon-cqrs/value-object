@@ -18,7 +18,7 @@ final class BoolValue implements ValueObjectInterface
     private $value;
 
     /** @param bool $value */
-    public static function fromNative($value): BoolValue
+    public static function fromNative($value): self
     {
         Assertion::boolean($value, 'Trying to create BoolValue VO from unsupported value type.');
         return new self($value);
@@ -32,7 +32,8 @@ final class BoolValue implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function __toString(): string
@@ -50,7 +51,7 @@ final class BoolValue implements ValueObjectInterface
         return $this->value === false;
     }
 
-    public function negate(): BoolValue
+    public function negate(): self
     {
         $clone = clone $this;
         $clone->value = !$this->value;

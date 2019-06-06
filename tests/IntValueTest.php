@@ -5,13 +5,11 @@ namespace Daikon\Tests\ValueObject;
 use Daikon\ValueObject\IntValue;
 use PHPUnit\Framework\TestCase;
 
-final class IntegerTest extends TestCase
+final class IntValueTest extends TestCase
 {
     private const FIXED_NUM = 23;
 
-    /**
-     * @var Integer
-     */
+    /** @var IntValue */
     private $integer;
 
     public function testToNative(): void
@@ -26,6 +24,18 @@ final class IntegerTest extends TestCase
         $this->assertTrue($this->integer->equals($sameNumber));
         $differentNumber = IntValue::fromNative(42);
         $this->assertFalse($this->integer->equals($differentNumber));
+    }
+
+    public function testAdd(): void
+    {
+        $amount = IntValue::fromNative(10);
+        $this->assertEquals(33, $this->integer->add($amount)->toNative());
+    }
+
+    public function testSubtract(): void
+    {
+        $amount = IntValue::fromNative(10);
+        $this->assertEquals(13, $this->integer->subtract($amount)->toNative());
     }
 
     public function testToString(): void

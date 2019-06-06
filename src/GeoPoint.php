@@ -24,7 +24,7 @@ final class GeoPoint implements ValueObjectInterface
     private $lat;
 
     /** @param float[] $point */
-    public static function fromArray(array $point): GeoPoint
+    public static function fromArray(array $point): self
     {
         Assertion::keyExists($point, 'lon');
         Assertion::keyExists($point, 'lat');
@@ -32,7 +32,7 @@ final class GeoPoint implements ValueObjectInterface
     }
 
     /** @param float[]|null $value */
-    public static function fromNative($value): GeoPoint
+    public static function fromNative($value): self
     {
         Assertion::nullOrIsArray($value, 'Trying to create GeoPoint VO from unsupported value type.');
         return is_array($value) ? self::fromArray($value) : self::fromArray(self::NULL_ISLAND);
@@ -46,7 +46,8 @@ final class GeoPoint implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() == $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() == $comparator->toNative();
     }
 
     public function __toString(): string

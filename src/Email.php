@@ -24,7 +24,7 @@ final class Email implements ValueObjectInterface
     private $domain;
 
     /** @param string|null $value */
-    public static function fromNative($value): Email
+    public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Email VO from unsupported value type.');
         if (empty($value)) {
@@ -46,7 +46,8 @@ final class Email implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function __toString(): string

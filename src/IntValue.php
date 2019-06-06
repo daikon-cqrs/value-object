@@ -27,8 +27,27 @@ final class IntValue implements ValueObjectInterface
         return is_null($this->value);
     }
 
+    public function add(self $amount): self
+    {
+        Assertion::false($this->isNull() || $amount->isNull(), 'Operands must not be null.');
+        /** @psalm-suppress PossiblyNullOperand */
+        return self::fromNative($this->toNative() + $amount->toNative());
+    }
+
+    public function subtract(self $amount): self
+    {
+        Assertion::false($this->isNull() || $amount->isNull(), 'Operands must not be null.');
+        /** @psalm-suppress PossiblyNullOperand */
+        return self::fromNative($this->toNative() - $amount->toNative());
+    }
+
+    public static function fromZero(): self
+    {
+        return new self(0);
+    }
+
     /** @param int|string|null $value  */
-    public static function fromNative($value): IntValue
+    public static function fromNative($value): self
     {
         $value = $value === '' ? null : $value;
         Assertion::nullOrIntegerish($value, 'Trying to create IntValue VO from unsupported value type.');
@@ -43,12 +62,13 @@ final class IntValue implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function __toString(): string
     {
-        return is_null($this->value) ? 'null' : (string) $this->value;
+        return is_null($this->value) ? 'null' : (string)$this->value;
     }
 
     private function __construct(?int $value)

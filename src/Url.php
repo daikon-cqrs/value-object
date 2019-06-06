@@ -36,11 +36,11 @@ final class Url implements ValueObjectInterface
     private $path;
 
     /** @param string|null $value */
-    public static function fromNative($value): Url
+    public static function fromNative($value): self
     {
         $value = empty($value) ? null : $value;
         Assertion::nullOrUrl($value, "Trying to create Url VO from unsupported value type: $value");
-        return empty($value) ? new Url(self::NIL) : new Url($value);
+        return empty($value) ? new self(self::NIL) : new self($value);
     }
 
     public function toNative(): ?string
@@ -64,7 +64,8 @@ final class Url implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $comparator->toNative() === $this->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $comparator->toNative() === $this->toNative();
     }
 
     public function __toString(): string

@@ -22,20 +22,20 @@ final class Timestamp implements ValueObjectInterface
     /** @var DateTimeImmutable|null */
     private $value;
 
-    public static function now(): Timestamp
+    public static function now(): self
     {
         return new self(new DateTimeImmutable);
     }
 
     /** @param int|string $time */
-    public static function fromTime($time): Timestamp
+    public static function fromTime($time): self
     {
         Assertion::integerish($time, 'Unix time must be an integer.');
         Assertion::greaterOrEqualThan((int)$time, 0, 'Unix time must be greater or equal than 0.');
         return new self(new DateTimeImmutable("@$time"));
     }
 
-    public static function fromString(string $date, string $format = self::NATIVE_FORMAT): Timestamp
+    public static function fromString(string $date, string $format = self::NATIVE_FORMAT): self
     {
         Assertion::date($date, $format);
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
@@ -45,7 +45,7 @@ final class Timestamp implements ValueObjectInterface
     }
 
     /** @param string|null $value */
-    public static function fromNative($value): Timestamp
+    public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Timestamp VO from unsupported value type.');
         return empty($value) ? new self : self::fromString($value);
@@ -59,7 +59,8 @@ final class Timestamp implements ValueObjectInterface
     /** @param self $comparator */
     public function equals($comparator): bool
     {
-        return $comparator instanceof self && $this->toNative() === $comparator->toNative();
+        Assertion::isInstanceOf($comparator, self::class);
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function isNull(): bool
@@ -67,7 +68,7 @@ final class Timestamp implements ValueObjectInterface
         return $this->value === null;
     }
 
-    public function isBefore(Timestamp $comparand): bool
+    public function isBefore(self $comparand): bool
     {
         if ($this->isNull()) {
             return true;
@@ -78,7 +79,7 @@ final class Timestamp implements ValueObjectInterface
         }
     }
 
-    public function isAfter(Timestamp $comparand): bool
+    public function isAfter(self $comparand): bool
     {
         if ($this->isNull()) {
             return false;
