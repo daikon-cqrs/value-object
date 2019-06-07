@@ -112,7 +112,8 @@ trait ValueObjectListTrait
             throw new \RuntimeException('Missing @type annotation on '.static::class);
         }
         $callable = array_map('trim', explode('::', $matches['type']));
-        Assertion::isCallable($callable);
+        //@todo assume fromNative if not provided
+        Assertion::isCallable($callable, $matches['type'].' is not callable in '.static::class);
         return $callable;
     }
 
