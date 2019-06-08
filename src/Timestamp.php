@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
+use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 
@@ -48,7 +49,7 @@ final class Timestamp implements ValueObjectInterface
     public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Timestamp VO from unsupported value type.');
-        return empty($value) ? new self : self::fromString($value);
+        return empty($value) || $value === 'null' ? new self : self::fromString($value);
     }
 
     public function toNative(): ?string
@@ -88,6 +89,19 @@ final class Timestamp implements ValueObjectInterface
         } else {
             return $this->value > DateTimeImmutable::createFromFormat(self::NATIVE_FORMAT, (string)$comparand);
         }
+    }
+
+    /** @param string $interval */
+    public function modify($interval): self
+    {
+        Assertion::false($this->isNull(), 'Cannot modify null Timestamp.');
+        Assertion::string($interval);
+        Assertion::notEmpty($interval);
+
+        $modified = $this->value->modify($interval);
+        Assertion::isInstanceOf($modified, DateTimeImmutable::class, 'Invalid modification interval.');
+
+        return new self($modified);
     }
 
     public function __toString(): string

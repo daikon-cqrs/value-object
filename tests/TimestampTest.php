@@ -7,11 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 final class TimestampTest extends TestCase
 {
-    private const FIXED_TIMESTAMP_EUR = '2016-07-04T19:27:07.000000+02:00';
+    private const FIXED_TIMESTAMP_EUR = '2016-07-04T19:27:07.123000+02:00';
 
-    private const FIXED_TIMESTAMP_UTC = '2016-07-04T17:27:07.000000+00:00';
+    private const FIXED_TIMESTAMP_UTC = '2016-07-04T17:27:07.123000+00:00';
 
-    private const FIXED_LATE_TIMESTAMP_UTC = '2016-07-05T17:27:07.000000+00:00';
+    private const FIXED_EARLY_TIMESTAMP_UTC = '2016-07-03T17:17:07.122999+00:00';
+
+    private const FIXED_LATE_TIMESTAMP_UTC = '2016-07-05T17:27:07.123000+00:00';
 
     /**
      * @var Timestamp $timestamp
@@ -26,9 +28,9 @@ final class TimestampTest extends TestCase
 
     public function testEquals(): void
     {
-        $equalTs = Timestamp::fromString('2016-07-04T17:27:07', 'Y-m-d\\TH:i:s');
+        $equalTs = Timestamp::fromString('2016-07-04T17:27:07.123000', 'Y-m-d\\TH:i:s.u');
         $this->assertTrue($this->timestamp->equals($equalTs));
-        $differentTs = Timestamp::fromString('2017-08-04T17:27:07', 'Y-m-d\\TH:i:s');
+        $differentTs = Timestamp::fromString('2017-08-04T17:27:07.123000', 'Y-m-d\\TH:i:s.u');
         $this->assertFalse($this->timestamp->equals($differentTs));
     }
 
@@ -63,6 +65,22 @@ final class TimestampTest extends TestCase
         $this->assertTrue($earlyTs->isAfter($nullTs));
         $this->assertFalse($earlyTs->isAfter($lateTs));
         $this->assertTrue($lateTs->isAfter($earlyTs));
+    }
+
+    public function testModify()
+    {
+        $addTs1 = $this->timestamp->modify('+1 day');
+        $addTs2 = $this->timestamp->modify('+24 hours');
+        $this->assertEquals(self::FIXED_LATE_TIMESTAMP_UTC, (string)$addTs1);
+        $this->assertEquals(self::FIXED_LATE_TIMESTAMP_UTC, (string)$addTs2);
+
+        $subTs1 = $this->timestamp->modify('-1 day - 10 minutes - 1 microsecond');
+        $subTs2 = $this->timestamp->modify('-24 hours - 600 seconds - 1 microsecond');
+        $this->assertEquals(self::FIXED_EARLY_TIMESTAMP_UTC, (string)$subTs1);
+        $this->assertEquals(self::FIXED_EARLY_TIMESTAMP_UTC, (string)$subTs2);
+
+        $this->expectException('PHPUnit\Framework\Error\Warning');
+        $this->timestamp->modify('bogus');
     }
 
     protected function setUp(): void
