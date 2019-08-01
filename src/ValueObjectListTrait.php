@@ -62,6 +62,18 @@ trait ValueObjectListTrait
         return $copy;
     }
 
+    public function replace(ValueObjectInterface $item, ValueObjectInterface $replacement): ValueObjectListInterface
+    {
+        $index = $this->indexOf($item);
+        if ($index === false) {
+            throw new \OutOfRangeException;
+        }
+        $copy = clone $this;
+        $copy->compositeVector->remove($index);
+        $copy->compositeVector->insert($index, $replacement);
+        return $copy;
+    }
+
     public function reverse(): ValueObjectListInterface
     {
         $copy = clone $this;

@@ -26,6 +26,8 @@ interface ValueObjectListInterface extends ValueObjectInterface, \IteratorAggreg
 
     public function remove(ValueObjectInterface $item): ValueObjectListInterface;
 
+    public function replace(ValueObjectInterface $item, ValueObjectInterface $replacement): ValueObjectListInterface;
+
     public function reverse(): ValueObjectListInterface;
 
     public function count(): int;

@@ -11,7 +11,6 @@ declare(strict_types=1);
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
-use DateInterval;
 use DateTimeImmutable;
 use DateTimeZone;
 
@@ -38,10 +37,15 @@ final class Timestamp implements ValueObjectInterface
 
     public static function fromString(string $date, string $format = self::NATIVE_FORMAT): self
     {
+        if ($date === 'now') {
+            return self::now();
+        }
+
         Assertion::date($date, $format);
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
             throw new \RuntimeException('Invalid date string given to ' . self::class);
         }
+
         return new self($dateTime);
     }
 
