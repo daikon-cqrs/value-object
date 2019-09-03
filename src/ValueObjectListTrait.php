@@ -152,7 +152,7 @@ trait ValueObjectListTrait
         }
     }
 
-    /** @param mixed $item */
+    /** @param ValueObjectInterface $item */
     private function assertItemType($item): void
     {
         if (!is_a($item, $this->itemType[0])) {
@@ -200,8 +200,8 @@ trait ValueObjectListTrait
 
         $objects = [];
         $itemType = static::getItemType();
-        foreach ($payload as $object) {
-            $objects[] = call_user_func($itemType, $object);
+        foreach ($payload as $data) {
+            $objects[] = call_user_func($itemType, $data);
         }
 
         return static::wrap($objects);
@@ -232,7 +232,7 @@ trait ValueObjectListTrait
     public function __toString(): string
     {
         $parts = [];
-        foreach ($this as $object) {
+        foreach ($this->compositeVector as $object) {
             $parts[] = (string)$object;
         }
         return implode(', ', $parts);
