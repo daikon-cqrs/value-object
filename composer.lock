@@ -72,12 +72,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "27826af26593a06589ba5210f508cdda130bcef7"
+                "reference": "1dd7eac5b8a37bac2d0cce1e597e6103dba3b541"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/27826af26593a06589ba5210f508cdda130bcef7",
-                "reference": "27826af26593a06589ba5210f508cdda130bcef7",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/1dd7eac5b8a37bac2d0cce1e597e6103dba3b541",
+                "reference": "1dd7eac5b8a37bac2d0cce1e597e6103dba3b541",
                 "shasum": ""
             },
             "require": {
@@ -99,7 +99,7 @@
             ],
             "description": "Interop components used across Daikon components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2019-04-05T18:36:01+00:00"
+            "time": "2019-09-06T16:54:46+00:00"
         },
         {
             "name": "paragonie/random_compat",
@@ -1621,9 +1621,9 @@
             "authors": [
                 {
                     "name": "Evert Pot",
-                    "role": "Developer",
                     "email": "me@evertpot.com",
-                    "homepage": "http://evertpot.com/"
+                    "homepage": "http://evertpot.com/",
+                    "role": "Developer"
                 }
             ],
             "description": "Functions for making sense out of URIs.",
