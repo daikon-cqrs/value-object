@@ -17,6 +17,9 @@ final class Text implements ValueObjectInterface
     /** @var string */
     private $value;
 
+    /** @var string */
+    private $encoding;
+
     /** @param string|null $value */
     public static function fromNative($value): self
     {
@@ -38,21 +41,23 @@ final class Text implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->toNative();
+        return $this->value;
     }
 
     public function isEmpty(): bool
     {
-        return empty($this->value);
+        return $this->value === '';
     }
 
     public function getLength(): int
     {
-        return strlen($this->value);
+        return mb_strlen($this->value, $this->encoding);
     }
 
-    private function __construct(string $value = '')
+    // use mb_detect_order() to set runtime encoding detection options
+    private function __construct(string $value = '', string $encoding = null)
     {
         $this->value = $value;
+        $this->encoding = $encoding ?? mb_detect_encoding($value);
     }
 }

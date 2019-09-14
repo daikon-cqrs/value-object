@@ -32,6 +32,7 @@ final class TextTest extends TestCase
     {
         $this->assertTrue(Text::fromNative('')->isEmpty());
         $this->assertTrue(Text::fromNative(null)->isEmpty());
+        $this->assertFalse(Text::fromNative('0')->isEmpty());
         $this->assertFalse($this->text->isEmpty());
     }
 
@@ -43,6 +44,12 @@ final class TextTest extends TestCase
     public function testGetLength()
     {
         $this->assertEquals(12, $this->text->getLength());
+        $detectOrder = mb_detect_order();
+        mb_detect_order(['SJIS']);
+        $intlText = Text::fromNative('ぁあぃいぅうぇえぉおかがきぎく');
+        $this->assertEquals(23, $intlText->getLength());
+        $this->assertEquals('ぁあぃいぅうぇえぉおかがきぎく', $intlText->toNative());
+        mb_detect_order($detectOrder);
     }
 
     protected function setUp(): void
