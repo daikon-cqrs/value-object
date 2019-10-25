@@ -41,7 +41,27 @@ final class IntValue implements ValueObjectInterface
         return self::fromNative($this->toNative() - $amount->toNative());
     }
 
-    public static function fromZero(): self
+    public function isGreaterThanOrEqualTo(self $comparator): bool
+    {
+        return $this->toNative() >= $comparator->toNative();
+    }
+
+    public function isLessThanOrEqualTo(self $comparator): bool
+    {
+        return $this->toNative() <= $comparator->toNative();
+    }
+
+    public function isGreaterThan(self $comparator): bool
+    {
+        return $this->toNative() > $comparator->toNative();
+    }
+
+    public function isLessThan(self $comparator): bool
+    {
+        return $this->toNative() < $comparator->toNative();
+    }
+
+    public static function zero(): self
     {
         return new self(0);
     }
