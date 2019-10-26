@@ -27,6 +27,11 @@ final class Timestamp implements ValueObjectInterface
         return new self(new DateTimeImmutable);
     }
 
+    public static function epoch(): self
+    {
+        return new self((new DateTimeImmutable)->setTimestamp(0));
+    }
+
     /** @param int|string $time */
     public static function fromTime($time): self
     {
@@ -39,6 +44,10 @@ final class Timestamp implements ValueObjectInterface
     {
         if ($date === 'now') {
             return self::now();
+        }
+
+        if ($date === 'epoch') {
+            return self::epoch();
         }
 
         Assertion::date($date, $format);
