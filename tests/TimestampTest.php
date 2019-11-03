@@ -30,7 +30,7 @@ final class TimestampTest extends TestCase
     {
         $equalTs = Timestamp::fromString('2016-07-04T17:27:07.123000', 'Y-m-d\\TH:i:s.u');
         $this->assertTrue($this->timestamp->equals($equalTs));
-        $differentTs = Timestamp::fromString('2017-08-04T17:27:07.123000', 'Y-m-d\\TH:i:s.u');
+        $differentTs = Timestamp::fromString('+1 year', 'Y-m-d\\TH:i:s.u');
         $this->assertFalse($this->timestamp->equals($differentTs));
     }
 

@@ -40,6 +40,12 @@ final class Timestamp implements ValueObjectInterface
         return new self(new DateTimeImmutable("@$time"));
     }
 
+    public function toTime(): int
+    {
+        Assertion::false($this->isNull(), 'Cannot convert null to time.');
+        return $this->value->getTimestamp();
+    }
+
     public static function fromString(string $date, string $format = self::NATIVE_FORMAT): self
     {
         if ($date === 'now') {
@@ -50,9 +56,11 @@ final class Timestamp implements ValueObjectInterface
             return self::epoch();
         }
 
-        Assertion::date($date, $format);
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
-            throw new \RuntimeException('Invalid date string given to ' . self::class);
+            $time = strtotime($date);
+            if ($time === false || !$dateTime = new DateTimeImmutable('@'.$time)) {
+                throw new \InvalidArgumentException('Invalid date string given to ' . self::class);
+            }
         }
 
         return new self($dateTime);
