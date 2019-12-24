@@ -27,6 +27,11 @@ final class Text implements ValueObjectInterface
         return is_null($value) ? new self : new self($value);
     }
 
+    public static function makeEmpty(): self
+    {
+        return new self;
+    }
+
     /** @param self $comparator */
     public function equals($comparator): bool
     {
@@ -51,7 +56,7 @@ final class Text implements ValueObjectInterface
 
     public function getLength(): int
     {
-        return mb_strlen($this->value, $this->encoding);
+        return mb_strlen($this->value, $this->encoding) ?: 0;
     }
 
     // use mb_detect_order() to set runtime encoding detection options

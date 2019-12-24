@@ -17,10 +17,14 @@ final class FloatValue implements ValueObjectInterface
     /** @var float|null */
     private $value;
 
-    /** @param float|string|null $value */
+    public function isNull(): bool
+    {
+        return is_null($this->value);
+    }
+
+    /** @param float|null $value */
     public static function fromNative($value): self
     {
-        $value = $value === '' ? null : $value;
         Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
         /** @psalm-suppress PossiblyInvalidArgument */
         return new self($value);
@@ -40,7 +44,7 @@ final class FloatValue implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->value ? (string)$this->value : 'null';
+        return is_null($this->value) ? 'null' : (string)$this->value;
     }
 
     private function __construct(?float $value)
