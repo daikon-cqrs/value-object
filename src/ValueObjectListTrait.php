@@ -95,10 +95,7 @@ trait ValueObjectListTrait
         return $this->compositeVector->isEmpty();
     }
 
-    /**
-     * @return int|bool
-     * @throws InvalidArgumentException
-     */
+    /** @throws InvalidArgumentException */
     public function indexOf(ValueObjectInterface $item)
     {
         $this->assertItemType($item);

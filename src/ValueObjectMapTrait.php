@@ -151,8 +151,7 @@ trait ValueObjectMapTrait
         $this->compositeMap = new Map($this->compositeMap->toArray());
     }
 
-    /** @param iterable $objects */
-    public static function wrap($objects): ValueObjectMapInterface
+    public static function wrap(iterable $objects): ValueObjectMapInterface
     {
         return new static($objects);
     }

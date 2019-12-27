@@ -36,7 +36,7 @@ interface ValueObjectListInterface extends ValueObjectInterface, IteratorAggrega
 
     public function isEmpty(): bool;
 
-    /** @return mixed */
+    /** @return int|bool */
     public function indexOf(ValueObjectInterface $item);
 
     public function getFirst(): ?ValueObjectInterface;
