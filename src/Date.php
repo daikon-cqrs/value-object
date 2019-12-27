@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,19 +6,17 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 use DateTimeImmutable;
+use RuntimeException;
 
 final class Date implements ValueObjectInterface
 {
-    /** @var string */
     public const NATIVE_FORMAT = 'Y-m-d';
 
-    /** @var DateTimeImmutable|null */
+    /** @var null|DateTimeImmutable */
     private $value;
 
     public static function today(): self
@@ -30,7 +28,7 @@ final class Date implements ValueObjectInterface
     {
         Assertion::date($value, $format);
         if (!$date = DateTimeImmutable::createFromFormat($format, $value)) {
-            throw new \RuntimeException('Invalid date string given to ' . self::class);
+            throw new RuntimeException('Invalid date string given to '.self::class);
         }
         return new self($date);
     }

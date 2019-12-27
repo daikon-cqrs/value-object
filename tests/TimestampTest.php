@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/value-object project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\ValueObject;
 
@@ -15,9 +21,7 @@ final class TimestampTest extends TestCase
 
     private const FIXED_LATE_TIMESTAMP_UTC = '2016-07-05T17:27:07.123000+00:00';
 
-    /**
-     * @var Timestamp $timestamp
-     */
+    /** @var Timestamp $timestamp */
     private $timestamp;
 
     public function testToNative(): void
@@ -34,18 +38,18 @@ final class TimestampTest extends TestCase
         $this->assertFalse($this->timestamp->equals($differentTs));
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertEquals(self::FIXED_TIMESTAMP_UTC, (string)$this->timestamp);
     }
 
-    public function testIsNull()
+    public function testIsNull(): void
     {
         $nullTs = Timestamp::fromNative(null);
         $this->assertTrue($nullTs->isNull());
     }
 
-    public function testIsBefore()
+    public function testIsBefore(): void
     {
         $nullTs = Timestamp::fromNative(null);
         $earlyTs = Timestamp::fromString(self::FIXED_TIMESTAMP_UTC);
@@ -56,7 +60,7 @@ final class TimestampTest extends TestCase
         $this->assertFalse($lateTs->isBefore($earlyTs));
     }
 
-    public function testIsAfter()
+    public function testIsAfter(): void
     {
         $nullTs = Timestamp::fromNative(null);
         $earlyTs = Timestamp::fromString(self::FIXED_TIMESTAMP_UTC);
@@ -67,7 +71,7 @@ final class TimestampTest extends TestCase
         $this->assertTrue($lateTs->isAfter($earlyTs));
     }
 
-    public function testModify()
+    public function testModify(): void
     {
         $addTs1 = $this->timestamp->modify('+1 day');
         $addTs2 = $this->timestamp->modify('+24 hours');

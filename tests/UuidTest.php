@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/value-object project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\ValueObject;
 
@@ -9,9 +15,7 @@ final class UuidTest extends TestCase
 {
     private const FIXED_UUID = '110ec58a-a0f2-4ac4-8393-c866d813b8d1';
 
-    /**
-     * @var Uuid $uuid
-     */
+    /** @var Uuid */
     private $uuid;
 
     public function testToNative(): void

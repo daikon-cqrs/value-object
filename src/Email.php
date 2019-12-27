@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,15 +6,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 
 final class Email implements ValueObjectInterface
 {
-    /** @var string */
     private const EMPTY = '';
 
     /** @var Text */
@@ -23,7 +20,7 @@ final class Email implements ValueObjectInterface
     /** @var Text */
     private $domain;
 
-    /** @param string|null $value */
+    /** @param null|string $value */
     public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Email VO from unsupported value type.');

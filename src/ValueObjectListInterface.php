@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,15 +6,17 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
-interface ValueObjectListInterface extends ValueObjectInterface, \IteratorAggregate, \Countable
+use Countable;
+use IteratorAggregate;
+use Traversable;
+
+interface ValueObjectListInterface extends ValueObjectInterface, IteratorAggregate, Countable
 {
     public static function makeEmpty(): ValueObjectListInterface;
 
-    public static function wrap($objects): ValueObjectListInterface;
+    public static function wrap(iterable $objects): ValueObjectListInterface;
 
     public function has(int $index): bool;
 
@@ -34,6 +36,7 @@ interface ValueObjectListInterface extends ValueObjectInterface, \IteratorAggreg
 
     public function isEmpty(): bool;
 
+    /** @return mixed */
     public function indexOf(ValueObjectInterface $item);
 
     public function getFirst(): ?ValueObjectInterface;
@@ -42,5 +45,5 @@ interface ValueObjectListInterface extends ValueObjectInterface, \IteratorAggreg
 
     public function unwrap(): array;
 
-    public function getIterator(): \Iterator;
+    public function getIterator(): Traversable;
 }

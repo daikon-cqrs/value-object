@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,15 +6,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 
 final class GeoPoint implements ValueObjectInterface
 {
-    /** @var float[] */
     public const NULL_ISLAND = ['lon' => 0.0, 'lat' => 0.0];
 
     /** @var FloatValue */
@@ -31,7 +28,7 @@ final class GeoPoint implements ValueObjectInterface
         return new self(FloatValue::fromNative($point['lon']), FloatValue::fromNative($point['lat']));
     }
 
-    /** @param float[]|null $value */
+    /** @param null|float[] $value */
     public static function fromNative($value): self
     {
         Assertion::nullOrIsArray($value, 'Trying to create GeoPoint VO from unsupported value type.');

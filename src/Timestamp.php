@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,20 +6,18 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 use DateTimeImmutable;
 use DateTimeZone;
+use InvalidArgumentException;
 
 final class Timestamp implements ValueObjectInterface
 {
-    /** @var string */
     public const NATIVE_FORMAT = 'Y-m-d\TH:i:s.uP';
 
-    /** @var DateTimeImmutable|null */
+    /** @var null|DateTimeImmutable */
     private $value;
 
     public static function now(): self
@@ -59,14 +57,14 @@ final class Timestamp implements ValueObjectInterface
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
             $time = strtotime($date);
             if ($time === false || !$dateTime = new DateTimeImmutable('@'.$time)) {
-                throw new \InvalidArgumentException('Invalid date string given to ' . self::class);
+                throw new InvalidArgumentException('Invalid date string given to '.self::class);
             }
         }
 
         return new self($dateTime);
     }
 
-    /** @param string|null $value */
+    /** @param null|string $value */
     public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Timestamp VO from unsupported value type.');

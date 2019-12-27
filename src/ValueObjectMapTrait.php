@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,12 +6,15 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 use Ds\Map;
+use InvalidArgumentException;
+use OutOfBoundsException;
+use ReflectionClass;
+use RuntimeException;
+use Traversable;
 
 /*
  * @note this trait currently only supports a single type map as we don't have a clear
@@ -23,27 +26,21 @@ trait ValueObjectMapTrait
     private $compositeMap;
 
     /** @var callable */
-    private $itemType;
+    private $itemFactory;
 
     public function has(string $key): bool
     {
         return $this->compositeMap->hasKey($key);
     }
 
-    /**
-     * @return mixed
-     * @throws \OutOfBoundsException
-     */
-    public function get(string $key)
+    /** @throws OutOfBoundsException */
+    public function get(string $key): ValueObjectInterface
     {
         return $this->compositeMap->get($key);
     }
 
-    /**
-     * @param mixed $item
-     * @throws \InvalidArgumentException
-     */
-    public function set(string $key, $item): ValueObjectMapInterface
+    /** @throws InvalidArgumentException */
+    public function set(string $key, ValueObjectInterface $item): ValueObjectMapInterface
     {
         $this->assertItemType($item);
         $copy = clone $this;
@@ -59,24 +56,27 @@ trait ValueObjectMapTrait
     public function toNative(): array
     {
         $clone = clone $this;
-        $clone->compositeMap->apply(function (string $key, ValueObjectInterface $object) {
-            return $object->toNative();
-        });
+        $clone->compositeMap->apply(
+            /** @return mixed */
+            function (string $key, ValueObjectInterface $object) {
+                return $object->toNative();
+            }
+        );
         return $clone->compositeMap->toArray();
     }
 
-    /** @param null|array $payload */
+    /** @param null|iterable $payload */
     public static function fromNative($payload): ValueObjectMapInterface
     {
-        Assertion::nullOrIsArray($payload);
+        Assertion::nullOrIsTraversable($payload);
         if (is_null($payload)) {
             return static::makeEmpty();
         }
 
         $objects = [];
-        $itemType = static::getItemType();
+        $itemFactory = static::getItemFactory();
         foreach ($payload as $key => $data) {
-            $objects[$key] = call_user_func($itemType, $data);
+            $objects[$key] = call_user_func($itemFactory, $data);
         }
         return static::wrap($objects);
     }
@@ -86,17 +86,16 @@ trait ValueObjectMapTrait
         return $this->compositeMap->isEmpty();
     }
 
-    /** @psalm-suppress MoreSpecificReturnType */
-    public function getIterator(): \Iterator
+    public function getIterator(): Traversable
     {
         return $this->compositeMap->getIterator();
     }
 
-    private static function getItemType(): callable
+    private static function getItemFactory(): callable
     {
-        $classReflection = new \ReflectionClass(static::class);
+        $classReflection = new ReflectionClass(static::class);
         if (!preg_match('#@type\s+(?<type>.+)#', $classReflection->getDocComment(), $matches)) {
-            throw new \RuntimeException('Missing @type annotation on '.static::class);
+            throw new RuntimeException('Missing @type annotation on '.static::class);
         }
         $callable = array_map('trim', explode('::', $matches['type']));
         //@todo assume fromNative if not provided
@@ -104,32 +103,22 @@ trait ValueObjectMapTrait
         return $callable;
     }
 
-    /**
-     * @return mixed
-     * @throws \OutOfBoundsException
-     */
-    public function __get(string $key)
-    {
-        return $this->get($key);
-    }
-
     private function init(iterable $items): void
     {
         //@todo check if already initialized
-        $this->itemType = static::getItemType();
+        $this->itemFactory = static::getItemFactory();
         foreach ($items as $key => $item) {
             $this->assertItemKey($key);
             $this->assertItemType($item);
         }
-        /** @psalm-suppress InvalidArgument */
         $this->compositeMap = new Map($items);
     }
 
-    /** @param string $key */
+    /** @param mixed $key */
     private function assertItemKey($key): void
     {
         if (!is_string($key)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Invalid item key given to %s. Expected string but was given %s.',
                 static::class,
                 is_object($key) ? get_class($key) : @gettype($key)
@@ -140,11 +129,13 @@ trait ValueObjectMapTrait
     /** @param ValueObjectInterface $item */
     private function assertItemType($item): void
     {
-        if (!is_a($item, $this->itemType[0])) {
-            throw new \InvalidArgumentException(sprintf(
+        /** @psalm-suppress InvalidArrayAccess */
+        $typeClass = $this->itemFactory[0];
+        if (!is_a($item, $typeClass)) {
+            throw new InvalidArgumentException(sprintf(
                 'Invalid item type given to %s. Expected %s but was given %s.',
                 static::class,
-                $this->itemType[0],
+                $typeClass,
                 is_object($item) ? get_class($item) : @gettype($item)
             ));
         }

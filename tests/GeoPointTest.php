@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/value-object project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\ValueObject;
 
@@ -12,9 +18,7 @@ final class GeoPointTest extends TestCase
         'lat' => 52.521918
     ];
 
-    /**
-     * @var GeoPoint
-     */
+    /** @var GeoPoint */
     private $geoPoint;
 
     public function testToNative(): void
@@ -31,17 +35,17 @@ final class GeoPointTest extends TestCase
         $this->assertFalse($this->geoPoint->equals($differentPoint));
     }
 
-    public function testGetLon()
+    public function testGetLon(): void
     {
         $this->assertEquals(self::COORDS['lon'], $this->geoPoint->getLon()->toNative());
     }
 
-    public function testGetLat()
+    public function testGetLat(): void
     {
         $this->assertEquals(self::COORDS['lat'], $this->geoPoint->getLat()->toNative());
     }
 
-    public function testToString()
+    public function testToString(): void
     {
         $this->assertEquals(
             sprintf('lon: %f, lat: %f', self::COORDS['lon'], self::COORDS['lat']),

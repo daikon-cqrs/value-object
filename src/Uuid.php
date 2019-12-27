@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace Daikon\ValueObject;
 
@@ -16,7 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 
 final class Uuid implements ValueObjectInterface
 {
-    /** @var UuidInterface|null */
+    /** @var null|UuidInterface */
     private $value;
 
     public static function generate(): self
@@ -24,7 +22,7 @@ final class Uuid implements ValueObjectInterface
         return new self(RamseyUuid::uuid4());
     }
 
-    /** @param string|null $value */
+    /** @param null|string $value */
     public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Uuid VO from unsupported value type.');

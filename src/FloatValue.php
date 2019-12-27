@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,15 +6,13 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 
 final class FloatValue implements ValueObjectInterface
 {
-    /** @var float|null */
+    /** @var null|float */
     private $value;
 
     public function isNull(): bool
@@ -22,7 +20,7 @@ final class FloatValue implements ValueObjectInterface
         return is_null($this->value);
     }
 
-    /** @param float|null $value */
+    /** @param null|float $value */
     public static function fromNative($value): self
     {
         Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');

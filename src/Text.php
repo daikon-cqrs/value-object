@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace Daikon\ValueObject;
 
@@ -20,7 +18,7 @@ final class Text implements ValueObjectInterface
     /** @var string */
     private $encoding;
 
-    /** @param string|null $value */
+    /** @param null|string $value */
     public static function fromNative($value): self
     {
         Assertion::nullOrString($value, 'Trying to create Text VO from unsupported value type.');

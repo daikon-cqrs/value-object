@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,15 +6,13 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 
 final class IntValue implements ValueObjectInterface
 {
-    /** @var int|null */
+    /** @var null|int */
     private $value;
 
     public function isZero(): bool
@@ -66,7 +64,7 @@ final class IntValue implements ValueObjectInterface
         return new self(0);
     }
 
-    /** @param int|string|null $value  */
+    /** @param null|int|string $value  */
     public static function fromNative($value): self
     {
         $value = $value === '' ? null : $value;

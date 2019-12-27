@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/value-object project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\ValueObject;
 
@@ -9,9 +15,7 @@ final class TextTest extends TestCase
 {
     private const FIXED_TEXT = 'hello world!';
 
-    /**
-     * @var Text
-     */
+    /** @var Text */
     private $text;
 
     public function testToNative(): void
@@ -41,7 +45,7 @@ final class TextTest extends TestCase
         $this->assertEquals(self::FIXED_TEXT, (string)$this->text);
     }
 
-    public function testGetLength()
+    public function testGetLength(): void
     {
         $this->assertEquals(12, $this->text->getLength());
         $detectOrder = mb_detect_order();

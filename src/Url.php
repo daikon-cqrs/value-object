@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/value-object project.
  *
@@ -6,15 +6,12 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
 
 final class Url implements ValueObjectInterface
 {
-    /** @var string */
     private const NIL = null;
 
     /** @var Text */
@@ -35,7 +32,7 @@ final class Url implements ValueObjectInterface
     /** @var Text */
     private $path;
 
-    /** @param string|null $value */
+    /** @param null|string $value */
     public static function fromNative($value): self
     {
         $value = empty($value) ? null : $value;
@@ -65,7 +62,7 @@ final class Url implements ValueObjectInterface
     public function equals($comparator): bool
     {
         Assertion::isInstanceOf($comparator, self::class);
-        return $comparator->toNative() === $this->toNative();
+        return $this->toNative() === $comparator->toNative();
     }
 
     public function __toString(): string

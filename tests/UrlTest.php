@@ -1,4 +1,10 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the daikon-cqrs/value-object project.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 namespace Daikon\Tests\ValueObject;
 
@@ -9,9 +15,7 @@ final class UrlTest extends TestCase
 {
     private const FIXED_URL = 'https://www.example.com:8080/?param=value#q=trellis';
 
-    /**
-     * @var Url $url
-     */
+    /** @var Url */
     private $url;
 
     public function testToNative(): void
