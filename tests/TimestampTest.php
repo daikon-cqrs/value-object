@@ -9,6 +9,7 @@
 namespace Daikon\Tests\ValueObject;
 
 use Daikon\ValueObject\Timestamp;
+use PHPUnit\Framework\Error\Warning;
 use PHPUnit\Framework\TestCase;
 
 final class TimestampTest extends TestCase
@@ -83,7 +84,7 @@ final class TimestampTest extends TestCase
         $this->assertEquals(self::FIXED_EARLY_TIMESTAMP_UTC, (string)$subTs1);
         $this->assertEquals(self::FIXED_EARLY_TIMESTAMP_UTC, (string)$subTs2);
 
-        $this->expectException('PHPUnit\Framework\Error\Warning');
+        $this->expectException(Warning::class);
         $this->timestamp->modify('bogus');
     }
 
