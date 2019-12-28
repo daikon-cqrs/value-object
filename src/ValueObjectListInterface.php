@@ -39,9 +39,9 @@ interface ValueObjectListInterface extends ValueObjectInterface, IteratorAggrega
     /** @return int|bool */
     public function indexOf(ValueObjectInterface $item);
 
-    public function getFirst(): ?ValueObjectInterface;
+    public function getFirst(): ValueObjectInterface;
 
-    public function getLast(): ?ValueObjectInterface;
+    public function getLast(): ValueObjectInterface;
 
     public function unwrap(): array;
 
