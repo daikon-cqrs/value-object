@@ -15,8 +15,7 @@ final class FloatValueTest extends TestCase
 {
     private const FIXED_DEC = 2.3;
 
-    /** @var FloatValue */
-    private $float;
+    private FloatValue $float;
 
     public function testToNative(): void
     {

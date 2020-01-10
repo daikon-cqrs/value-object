@@ -12,8 +12,7 @@ use Assert\Assertion;
 
 final class BoolValue implements ValueObjectInterface
 {
-    /** @var bool */
-    private $value;
+    private bool $value;
 
     /** @param bool $value */
     public static function fromNative($value): self

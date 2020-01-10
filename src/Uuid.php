@@ -14,8 +14,7 @@ use Ramsey\Uuid\UuidInterface;
 
 final class Uuid implements ValueObjectInterface
 {
-    /** @var null|UuidInterface */
-    private $value;
+    private ?UuidInterface $value;
 
     public static function generate(): self
     {

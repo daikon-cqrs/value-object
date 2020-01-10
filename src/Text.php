@@ -12,11 +12,9 @@ use Assert\Assertion;
 
 final class Text implements ValueObjectInterface
 {
-    /** @var string */
-    private $value;
+    private string $value;
 
-    /** @var string */
-    private $encoding;
+    private string $encoding;
 
     /** @param null|string $value */
     public static function fromNative($value): self

@@ -6,12 +6,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Daikon\ValueObject;
+namespace Daikon\Tests\ValueObject\Fixture;
+
+use Daikon\ValueObject\ValueObjectMapInterface;
+use Daikon\ValueObject\ValueObjectMapTrait;
 
 /**
- * @type Daikon\ValueObject\Text::fromNative
+ * @type Daikon\ValueObject\Date
  */
-final class TextMap implements ValueObjectMapInterface
+final class DateMap implements ValueObjectMapInterface
 {
     use ValueObjectMapTrait;
 }

@@ -15,8 +15,7 @@ final class UuidTest extends TestCase
 {
     private const FIXED_UUID = '110ec58a-a0f2-4ac4-8393-c866d813b8d1';
 
-    /** @var Uuid */
-    private $uuid;
+    private Uuid $uuid;
 
     public function testToNative(): void
     {

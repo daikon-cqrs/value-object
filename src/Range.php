@@ -12,8 +12,7 @@ use Assert\Assertion;
 
 final class Range implements ValueObjectInterface
 {
-    /** @var array */
-    private $range;
+    private array $range;
 
     /** @param self $comparator */
     public function equals($comparator): bool

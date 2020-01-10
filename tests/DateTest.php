@@ -15,8 +15,7 @@ final class DateTest extends TestCase
 {
     private const DATE = '2016-07-04';
 
-    /** @var Date */
-    private $date;
+    private Date $date;
 
     public function testToNative(): void
     {

@@ -15,8 +15,7 @@ final class IntValueTest extends TestCase
 {
     private const FIXED_NUM = 23;
 
-    /** @var IntValue */
-    private $integer;
+    private IntValue $integer;
 
     public function testToNative(): void
     {

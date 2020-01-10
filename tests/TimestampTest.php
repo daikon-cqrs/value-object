@@ -22,8 +22,7 @@ final class TimestampTest extends TestCase
 
     private const FIXED_LATE_TIMESTAMP_UTC = '2016-07-05T17:27:07.123000+00:00';
 
-    /** @var Timestamp $timestamp */
-    private $timestamp;
+    private Timestamp $timestamp;
 
     public function testToNative(): void
     {

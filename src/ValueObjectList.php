@@ -8,9 +8,10 @@
 
 namespace Daikon\ValueObject;
 
-use Daikon\DataStructure\TypedListInterface;
-
-interface ValueObjectListInterface extends TypedListInterface, ValueObjectInterface
+/**
+ * @type Daikon\ValueObject\ValueObjectInterface
+ */
+final class ValueObjectList implements ValueObjectListInterface
 {
-    public static function makeEmpty(): self;
+    use ValueObjectListTrait;
 }

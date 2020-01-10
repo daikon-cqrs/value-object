@@ -15,8 +15,7 @@ final class TextTest extends TestCase
 {
     private const FIXED_TEXT = 'hello world!';
 
-    /** @var Text */
-    private $text;
+    private Text $text;
 
     public function testToNative(): void
     {

@@ -14,11 +14,9 @@ final class Email implements ValueObjectInterface
 {
     private const EMPTY = '';
 
-    /** @var Text */
-    private $localPart;
+    private Text $localPart;
 
-    /** @var Text */
-    private $domain;
+    private Text $domain;
 
     /** @param null|string $value */
     public static function fromNative($value): self

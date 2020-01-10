@@ -14,11 +14,9 @@ final class GeoPoint implements ValueObjectInterface
 {
     public const NULL_ISLAND = ['lon' => 0.0, 'lat' => 0.0];
 
-    /** @var FloatValue */
-    private $lon;
+    private FloatValue $lon;
 
-    /** var FloatValue */
-    private $lat;
+    private FloatValue $lat;
 
     /** @param float[] $point */
     public static function fromArray(array $point): self
@@ -49,7 +47,7 @@ final class GeoPoint implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return sprintf('lon: %s, lat: %s', $this->lon, $this->lat);
+        return sprintf('lon: %s, lat: %s', (string)$this->lon, (string)$this->lat);
     }
 
     public function isNullIsland(): bool

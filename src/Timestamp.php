@@ -17,8 +17,7 @@ final class Timestamp implements ValueObjectInterface
 {
     public const NATIVE_FORMAT = 'Y-m-d\TH:i:s.uP';
 
-    /** @var null|DateTimeImmutable */
-    private $value;
+    private ?DateTimeImmutable $value;
 
     public static function now(): self
     {

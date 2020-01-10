@@ -15,8 +15,7 @@ final class EmailTest extends TestCase
 {
     private const EMAIL = 'peter.parker@example.com';
 
-    /** @var Email */
-    private $email;
+    private Email $email;
 
     public function testToNative(): void
     {

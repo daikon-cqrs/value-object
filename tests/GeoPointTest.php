@@ -18,8 +18,7 @@ final class GeoPointTest extends TestCase
         'lat' => 52.521918
     ];
 
-    /** @var GeoPoint */
-    private $geoPoint;
+    private GeoPoint $geoPoint;
 
     public function testToNative(): void
     {

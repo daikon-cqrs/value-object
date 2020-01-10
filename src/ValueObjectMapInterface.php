@@ -8,25 +8,9 @@
 
 namespace Daikon\ValueObject;
 
-use Countable;
-use IteratorAggregate;
-use Traversable;
+use Daikon\DataStructure\TypedMapInterface;
 
-interface ValueObjectMapInterface extends ValueObjectInterface, IteratorAggregate, Countable
+interface ValueObjectMapInterface extends TypedMapInterface, ValueObjectInterface
 {
-    public static function makeEmpty(): ValueObjectMapInterface;
-
-    public static function wrap(iterable $objects): ValueObjectMapInterface;
-
-    public function has(string $key): bool;
-
-    public function get(string $key): ValueObjectInterface;
-
-    public function set(string $key, ValueObjectInterface $item): ValueObjectMapInterface;
-
-    public function count(): int;
-
-    public function isEmpty(): bool;
-
-    public function getIterator(): Traversable;
+    public static function makeEmpty(): self;
 }

@@ -12,8 +12,7 @@ use Assert\Assertion;
 
 final class IntValue implements ValueObjectInterface
 {
-    /** @var null|int */
-    private $value;
+    private ?int $value;
 
     public function isZero(): bool
     {

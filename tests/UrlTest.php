@@ -15,8 +15,7 @@ final class UrlTest extends TestCase
 {
     private const FIXED_URL = 'https://www.example.com:8080/?param=value#q=trellis';
 
-    /** @var Url */
-    private $url;
+    private Url $url;
 
     public function testToNative(): void
     {

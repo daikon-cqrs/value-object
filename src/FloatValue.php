@@ -12,8 +12,7 @@ use Assert\Assertion;
 
 final class FloatValue implements ValueObjectInterface
 {
-    /** @var null|float */
-    private $value;
+    private ?float $value;
 
     public function isNull(): bool
     {

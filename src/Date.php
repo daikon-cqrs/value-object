@@ -16,8 +16,7 @@ final class Date implements ValueObjectInterface
 {
     public const NATIVE_FORMAT = 'Y-m-d';
 
-    /** @var null|DateTimeImmutable */
-    private $value;
+    private ?DateTimeImmutable $value;
 
     public static function today(): self
     {

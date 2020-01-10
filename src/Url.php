@@ -14,23 +14,17 @@ final class Url implements ValueObjectInterface
 {
     private const NIL = null;
 
-    /** @var Text */
-    private $fragment;
+    private Text $fragment;
 
-    /** @var Text */
-    private $host;
+    private Text $host;
 
-    /** @var Text */
-    private $scheme;
+    private Text $scheme;
 
-    /** @var Text */
-    private $query;
+    private Text $query;
 
-    /** @var IntValue */
-    private $port;
+    private IntValue $port;
 
-    /** @var Text */
-    private $path;
+    private Text $path;
 
     /** @param null|string $value */
     public static function fromNative($value): self
@@ -47,7 +41,7 @@ final class Url implements ValueObjectInterface
         }
         return sprintf(
             '%s://%s',
-            $this->scheme,
+            (string)$this->scheme,
             implode('', [
                 $this->host,
                 $this->formatPort(),
