@@ -53,6 +53,10 @@ final class Timestamp implements ValueObjectInterface
             return self::epoch();
         }
 
+        if (is_numeric($date)) {
+            $format = 'U';
+        }
+
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
             $time = strtotime($date);
             if ($time === false || !$dateTime = new DateTimeImmutable('@'.$time)) {

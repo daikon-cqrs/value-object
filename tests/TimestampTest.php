@@ -43,6 +43,11 @@ final class TimestampTest extends TestCase
         $this->assertEquals(self::FIXED_TIMESTAMP_UTC, (string)$this->timestamp);
     }
 
+    public function testToTime(): void
+    {
+        $this->assertEquals('1578687888', Timestamp::fromNative('1578687888')->toTime());
+    }
+
     public function testIsNull(): void
     {
         $nullTs = Timestamp::fromNative(null);
