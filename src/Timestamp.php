@@ -54,7 +54,7 @@ final class Timestamp implements ValueObjectInterface
         }
 
         if (is_numeric($date)) {
-            $format = 'U';
+            $format = strpos($date, '.') ? 'U.u' : 'U';
         }
 
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {

@@ -21,6 +21,16 @@ final class BoolValue implements ValueObjectInterface
         return new self($value);
     }
 
+    public static function false(): self
+    {
+        return new self(false);
+    }
+
+    public static function true(): self
+    {
+        return new self(true);
+    }
+
     public function toNative(): bool
     {
         return $this->value;
