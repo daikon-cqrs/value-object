@@ -40,6 +40,7 @@ final class Timestamp implements ValueObjectInterface
     public function toTime(): int
     {
         Assertion::false($this->isNull(), 'Cannot convert null to time.');
+        /** @psalm-suppress PossiblyNullReference */
         return $this->value->getTimestamp();
     }
 
@@ -119,7 +120,7 @@ final class Timestamp implements ValueObjectInterface
         Assertion::false($this->isNull(), 'Cannot modify null Timestamp.');
         Assertion::string($interval);
         Assertion::notEmpty($interval);
-
+        /** @psalm-suppress PossiblyNullReference */
         $modified = $this->value->modify($interval);
         Assertion::isInstanceOf($modified, DateTimeImmutable::class, 'Invalid modification interval.');
 
