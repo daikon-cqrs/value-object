@@ -55,8 +55,9 @@ trait ValueObjectCollectionTrait
         $typeFactories = static::getTypeFactories();
         // Override fromNative() to support multiple types
         Assert::that($typeFactories)->count(1, 'Only one @type annotation is supported by '.static::class);
+        /** @var array $typeFactory */
         $typeFactory = current($typeFactories);
-        Assert::that($typeFactory)->isCallable(sprintf(
+        Assert::that($typeFactory)->isArray()->isCallable(sprintf(
             "@type annotation '%s' is not callable in ".static::class,
             implode('::', $typeFactory)
         ));
