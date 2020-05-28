@@ -9,8 +9,8 @@
 namespace Daikon\ValueObject;
 
 use Assert\Assertion;
+use Daikon\Interop\RuntimeException;
 use DateTimeImmutable;
-use RuntimeException;
 
 final class Date implements ValueObjectInterface
 {
