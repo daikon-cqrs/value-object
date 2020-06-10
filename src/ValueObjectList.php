@@ -11,7 +11,7 @@ namespace Daikon\ValueObject;
 /**
  * @type Daikon\ValueObject\ValueObjectInterface
  */
-final class ValueObjectList implements ValueObjectListInterface
+class ValueObjectList implements ValueObjectListInterface
 {
     use ValueObjectListTrait;
 }

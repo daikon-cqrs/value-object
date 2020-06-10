@@ -8,8 +8,8 @@
 
 namespace Daikon\Tests\ValueObject;
 
+use Daikon\Interop\InvalidArgumentException;
 use Daikon\ValueObject\NullValue;
-use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 
 final class NullValueTest extends TestCase

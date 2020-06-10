@@ -11,7 +11,6 @@ namespace Daikon\ValueObject;
 /**
  * @type Daikon\ValueObject\Text::fromNative
  */
-final class TextList implements ValueObjectListInterface
+final class TextList extends ValueObjectList
 {
-    use ValueObjectListTrait;
 }

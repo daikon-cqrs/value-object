@@ -8,8 +8,8 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assertion;
-use Daikon\Interop\RuntimeException;
+use Daikon\Interop\Assertion;
+use Daikon\Interop\InvalidArgumentException;
 use DateTimeImmutable;
 
 final class Date implements ValueObjectInterface
@@ -27,7 +27,7 @@ final class Date implements ValueObjectInterface
     {
         Assertion::date($value, $format);
         if (!$date = DateTimeImmutable::createFromFormat($format, $value)) {
-            throw new RuntimeException('Invalid date string given to '.self::class);
+            throw new InvalidArgumentException('Invalid date string given to '.self::class);
         }
         return new self($date);
     }

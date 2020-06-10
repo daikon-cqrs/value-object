@@ -8,13 +8,11 @@
 
 namespace Daikon\Tests\ValueObject\Fixture;
 
-use Daikon\ValueObject\ValueObjectMapInterface;
-use Daikon\ValueObject\ValueObjectMapTrait;
+use Daikon\ValueObject\ValueObjectMap;
 
 /**
  * @type Daikon\ValueObject\Date
  */
-final class DateMap implements ValueObjectMapInterface
+final class DateMap extends ValueObjectMap
 {
-    use ValueObjectMapTrait;
 }

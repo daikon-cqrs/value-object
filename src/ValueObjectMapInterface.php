@@ -9,8 +9,8 @@
 namespace Daikon\ValueObject;
 
 use Daikon\DataStructure\TypedMapInterface;
+use Daikon\Interop\MakeEmptyInterface;
 
-interface ValueObjectMapInterface extends TypedMapInterface, ValueObjectInterface
+interface ValueObjectMapInterface extends MakeEmptyInterface, TypedMapInterface, ValueObjectInterface
 {
-    public static function makeEmpty(): self;
 }

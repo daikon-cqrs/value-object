@@ -8,7 +8,7 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assertion;
+use Daikon\Interop\Assertion;
 use Ramsey\Uuid\Uuid as RamseyUuid;
 use Ramsey\Uuid\UuidInterface;
 

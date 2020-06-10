@@ -8,9 +8,10 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assertion;
+use Daikon\Interop\Assertion;
+use Daikon\Interop\MakeEmptyInterface;
 
-final class NullValue implements ValueObjectInterface
+final class NullValue implements MakeEmptyInterface, ValueObjectInterface
 {
     /** @param null|string $value  */
     public static function fromNative($value): self

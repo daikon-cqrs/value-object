@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3ebfec1abf5294306d2817847e12732e",
+    "content-hash": "358b37fc80ec3a11116b76b1663a8de4",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -126,16 +126,15 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/data-structure.git",
-                "reference": "7d7b782079afd1c6d78827597ecf9ae6ff2b6e2e"
+                "reference": "693e39f6c140d20eaa2d1e4b412e0ae3f912d484"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/data-structure/zipball/7d7b782079afd1c6d78827597ecf9ae6ff2b6e2e",
-                "reference": "7d7b782079afd1c6d78827597ecf9ae6ff2b6e2e",
+                "url": "https://api.github.com/repos/daikon-cqrs/data-structure/zipball/693e39f6c140d20eaa2d1e4b412e0ae3f912d484",
+                "reference": "693e39f6c140d20eaa2d1e4b412e0ae3f912d484",
                 "shasum": ""
             },
             "require": {
-                "beberlei/assert": "^3.0",
                 "daikon/interop": "master@dev",
                 "php": "^7.4",
                 "php-ds/php-ds": "^1.2"
@@ -168,7 +167,7 @@
                 "map",
                 "vector"
             ],
-            "time": "2020-05-28T02:04:18+00:00"
+            "time": "2020-06-10T17:42:14+00:00"
         },
         {
             "name": "daikon/interop",
@@ -176,15 +175,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "9601b4722d7c24a14b073375f3c9092b70bb0b2b"
+                "reference": "b7e146b17758ae31a625507728ab1031e99b8e99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/9601b4722d7c24a14b073375f3c9092b70bb0b2b",
-                "reference": "9601b4722d7c24a14b073375f3c9092b70bb0b2b",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/b7e146b17758ae31a625507728ab1031e99b8e99",
+                "reference": "b7e146b17758ae31a625507728ab1031e99b8e99",
                 "shasum": ""
             },
             "require": {
+                "beberlei/assert": "^v3.0",
                 "php": "^7.4"
             },
             "require-dev": {
@@ -205,7 +205,7 @@
             ],
             "description": "Interoperability code used across Daikon-CQRS components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2020-05-27T22:29:11+00:00"
+            "time": "2020-06-10T17:16:10+00:00"
         },
         {
             "name": "php-ds/php-ds",
@@ -682,16 +682,16 @@
         },
         {
             "name": "composer/xdebug-handler",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/xdebug-handler.git",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7"
+                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/1ab9842d69e64fb3a01be6b656501032d1b78cb7",
-                "reference": "1ab9842d69e64fb3a01be6b656501032d1b78cb7",
+                "url": "https://api.github.com/repos/composer/xdebug-handler/zipball/fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
+                "reference": "fa2aaf99e2087f013a14f7432c1cd2dd7d8f1f51",
                 "shasum": ""
             },
             "require": {
@@ -726,9 +726,17 @@
                 {
                     "url": "https://packagist.com",
                     "type": "custom"
+                },
+                {
+                    "url": "https://github.com/composer",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/composer/composer",
+                    "type": "tidelift"
                 }
             ],
-            "time": "2020-03-01T12:26:26+00:00"
+            "time": "2020-06-04T11:16:35+00:00"
         },
         {
             "name": "doctrine/instantiator",

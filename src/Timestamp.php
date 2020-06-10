@@ -8,10 +8,10 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assertion;
+use Daikon\Interop\Assertion;
+use Daikon\Interop\InvalidArgumentException;
 use DateTimeImmutable;
 use DateTimeZone;
-use InvalidArgumentException;
 
 final class Timestamp implements ValueObjectInterface
 {

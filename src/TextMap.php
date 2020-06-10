@@ -11,7 +11,6 @@ namespace Daikon\ValueObject;
 /**
  * @type Daikon\ValueObject\Text::fromNative
  */
-final class TextMap implements ValueObjectMapInterface
+final class TextMap extends ValueObjectMap
 {
-    use ValueObjectMapTrait;
 }

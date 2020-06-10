@@ -8,7 +8,8 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assert;
+use Daikon\Interop\Assertion;
+use Daikon\Interop\InvalidArgumentException;
 use ReflectionClass;
 
 trait ValueObjectCollectionTrait
@@ -32,10 +33,14 @@ trait ValueObjectCollectionTrait
          * @psalm-suppress RedundantConditionGivenDocblockType
          * @psalm-suppress DocblockTypeContradiction
          */
-        Assert::that($comparator)->isInstanceOf(static::class, sprintf(
-            "Invalid comparator type '%s' given to ".static::class,
-            is_object($comparator) ? get_class($comparator) : @gettype($comparator)
-        ));
+        Assertion::isInstanceOf(
+            $comparator,
+            static::class,
+            sprintf(
+                "Invalid comparator type '%s' given to ".static::class,
+                is_object($comparator) ? get_class($comparator) : @gettype($comparator)
+            )
+        );
 
         /** @var ValueObjectInterface $object */
         foreach ($this as $index => $object) {
@@ -51,21 +56,22 @@ trait ValueObjectCollectionTrait
     /** @param null|iterable $state */
     public static function fromNative($state): self
     {
-        Assert::that($state)->nullOr()->isTraversable('State provided to '.static::class.' must be null or iterable');
+        Assertion::nullOrIsTraversable($state, 'State provided to '.static::class.' must be null or iterable.');
         $typeFactories = static::getTypeFactories();
         // Override fromNative() to support multiple types
-        Assert::that($typeFactories)->count(1, 'Only one @type annotation is supported by '.static::class);
+        Assertion::count($typeFactories, 1, sprintf("Only 1 @type annotation is supported by '%s'.", static::class));
         /** @var array $typeFactory */
         $typeFactory = current($typeFactories);
-        Assert::that($typeFactory)->isArray()->isCallable(sprintf(
-            "@type annotation '%s' is not callable in ".static::class,
-            implode('::', $typeFactory)
+        Assertion::isCallable($typeFactory, sprintf(
+            "@type factory '%s' is not callable in '%s'.",
+            implode('::', $typeFactory),
+            static::class
         ));
 
         $objects = [];
         if (!is_null($state)) {
             foreach ($state as $key => $data) {
-                $objects[$key] = call_user_func($typeFactory, $data);
+                $objects[$key] = $typeFactory($data);
             }
         }
 
@@ -96,19 +102,17 @@ trait ValueObjectCollectionTrait
     private static function getTypeFactories(): array
     {
         $classReflection = new ReflectionClass(static::class);
-        $match = (bool)preg_match_all(
-            '#@type\s+(?<type>.+)#',
-            (string)$classReflection->getDocComment(),
-            $matches
-        );
-        Assert::that($match)->true('Missing @type annotation on '.static::class);
+        if (!preg_match_all('#@type\s+(?<type>.+)#', (string)$classReflection->getDocComment(), $matches)) {
+            throw new InvalidArgumentException(sprintf("Missing @type annotation on '%s'.", static::class));
+        }
 
         $callables = [];
         foreach ($matches['type'] as $type) {
             $callable = array_map('trim', explode('::', $type));
-            Assert::that($callables)->keyNotExists(
+            Assertion::keyNotExists(
+                $callables,
                 $callable[0],
-                "Ambiguous @type annotation for '$callable[0]' in ".static::class
+                sprintf("Ambiguous @type annotation for '$callable[0]' in '%s'.", static::class)
             );
             if (!isset($callable[1])) {
                 $callable[1] = 'fromNative';

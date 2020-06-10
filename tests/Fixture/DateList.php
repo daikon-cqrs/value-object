@@ -8,13 +8,11 @@
 
 namespace Daikon\Tests\ValueObject\Fixture;
 
-use Daikon\ValueObject\ValueObjectListInterface;
-use Daikon\ValueObject\ValueObjectListTrait;
+use Daikon\ValueObject\ValueObjectList;
 
 /**
  * @type Daikon\ValueObject\Date::fromNative
  */
-final class DateList implements ValueObjectListInterface
+final class DateList extends ValueObjectList
 {
-    use ValueObjectListTrait;
 }

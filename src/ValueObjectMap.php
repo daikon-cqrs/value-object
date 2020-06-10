@@ -11,7 +11,7 @@ namespace Daikon\ValueObject;
 /**
  * @type Daikon\ValueObject\ValueObjectInterface
  */
-final class ValueObjectMap implements ValueObjectMapInterface
+class ValueObjectMap implements ValueObjectMapInterface
 {
     use ValueObjectMapTrait;
 }

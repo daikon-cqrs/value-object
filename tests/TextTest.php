@@ -55,6 +55,14 @@ final class TextTest extends TestCase
         mb_detect_order($detectOrder);
     }
 
+    public function testMakeEmpty(): void
+    {
+        $this->assertEquals('', Text::makeEmpty()->toNative());
+        $this->assertEquals('', (string)Text::makeEmpty());
+        $this->assertTrue(Text::makeEmpty()->isEmpty());
+        $this->assertEquals(0, Text::makeEmpty()->getLength());
+    }
+
     protected function setUp(): void
     {
         $this->text = Text::fromNative(self::FIXED_TEXT);

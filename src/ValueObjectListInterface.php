@@ -9,8 +9,8 @@
 namespace Daikon\ValueObject;
 
 use Daikon\DataStructure\TypedListInterface;
+use Daikon\Interop\MakeEmptyInterface;
 
-interface ValueObjectListInterface extends TypedListInterface, ValueObjectInterface
+interface ValueObjectListInterface extends MakeEmptyInterface, TypedListInterface, ValueObjectInterface
 {
-    public static function makeEmpty(): self;
 }

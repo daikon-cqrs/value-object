@@ -8,9 +8,10 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assertion;
+use Daikon\Interop\Assertion;
+use Daikon\Interop\MakeEmptyInterface;
 
-final class Text implements ValueObjectInterface
+final class Text implements MakeEmptyInterface, ValueObjectInterface
 {
     private string $value;
 

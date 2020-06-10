@@ -8,7 +8,7 @@
 
 namespace Daikon\ValueObject;
 
-use Assert\Assertion;
+use Daikon\Interop\Assertion;
 
 final class FloatValue implements ValueObjectInterface
 {
