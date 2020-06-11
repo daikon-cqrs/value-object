@@ -53,7 +53,10 @@ trait ValueObjectCollectionTrait
         return true;
     }
 
-    /** @param null|iterable $state */
+    /**
+     * @param null|iterable $state
+     * @return static
+     */
     public static function fromNative($state): self
     {
         Assertion::nullOrIsTraversable($state, 'State provided to '.static::class.' must be null or iterable.');

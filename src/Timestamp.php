@@ -10,10 +10,11 @@ namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
 use Daikon\Interop\InvalidArgumentException;
+use Daikon\Interop\MakeEmptyInterface;
 use DateTimeImmutable;
 use DateTimeZone;
 
-final class Timestamp implements ValueObjectInterface
+final class Timestamp implements MakeEmptyInterface, ValueObjectInterface
 {
     public const NATIVE_FORMAT = 'Y-m-d\TH:i:s.uP';
 
@@ -37,9 +38,14 @@ final class Timestamp implements ValueObjectInterface
         return new self(new DateTimeImmutable("@$time"));
     }
 
+    public static function makeEmpty(): self
+    {
+        return new self;
+    }
+
     public function toTime(): int
     {
-        Assertion::false($this->isNull(), 'Cannot convert null to time.');
+        Assertion::false($this->isEmpty(), 'Cannot convert null to time.');
         /** @psalm-suppress PossiblyNullReference */
         return $this->value->getTimestamp();
     }
@@ -87,16 +93,16 @@ final class Timestamp implements ValueObjectInterface
         return $this->toNative() === $comparator->toNative();
     }
 
-    public function isNull(): bool
+    public function isEmpty(): bool
     {
         return $this->value === null;
     }
 
     public function isBefore(self $comparand): bool
     {
-        if ($this->isNull()) {
+        if ($this->isEmpty()) {
             return true;
-        } elseif ($comparand->isNull()) {
+        } elseif ($comparand->isEmpty()) {
             return false;
         } else {
             return $this->value < DateTimeImmutable::createFromFormat(self::NATIVE_FORMAT, (string)$comparand);
@@ -105,9 +111,9 @@ final class Timestamp implements ValueObjectInterface
 
     public function isAfter(self $comparand): bool
     {
-        if ($this->isNull()) {
+        if ($this->isEmpty()) {
             return false;
-        } elseif ($comparand->isNull()) {
+        } elseif ($comparand->isEmpty()) {
             return true;
         } else {
             return $this->value > DateTimeImmutable::createFromFormat(self::NATIVE_FORMAT, (string)$comparand);
@@ -117,7 +123,7 @@ final class Timestamp implements ValueObjectInterface
     /** @param string $interval */
     public function modify($interval): self
     {
-        Assertion::false($this->isNull(), 'Cannot modify null Timestamp.');
+        Assertion::false($this->isEmpty(), 'Cannot modify null Timestamp.');
         Assertion::string($interval);
         Assertion::notEmpty($interval);
         /** @psalm-suppress PossiblyNullReference */

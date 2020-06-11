@@ -47,10 +47,10 @@ final class TimestampTest extends TestCase
         $this->assertEquals('1578687888', Timestamp::fromNative('1578687888')->toTime());
     }
 
-    public function testIsNull(): void
+    public function testIsEmpty(): void
     {
-        $nullTs = Timestamp::fromNative(null);
-        $this->assertTrue($nullTs->isNull());
+        $this->assertTrue(Timestamp::fromNative(null)->isEmpty());
+        $this->assertTrue(Timestamp::makeEmpty()->isEmpty());
     }
 
     public function testIsBefore(): void

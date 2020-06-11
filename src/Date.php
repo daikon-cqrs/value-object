@@ -10,9 +10,10 @@ namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
 use Daikon\Interop\InvalidArgumentException;
+use Daikon\Interop\MakeEmptyInterface;
 use DateTimeImmutable;
 
-final class Date implements ValueObjectInterface
+final class Date implements MakeEmptyInterface, ValueObjectInterface
 {
     public const NATIVE_FORMAT = 'Y-m-d';
 
@@ -39,6 +40,11 @@ final class Date implements ValueObjectInterface
         return empty($value) ? new self : self::fromString($value);
     }
 
+    public static function makeEmpty(): self
+    {
+        return new self;
+    }
+
     public function toNative(): ?string
     {
         return is_null($this->value) ? null : $this->value->format(static::NATIVE_FORMAT);
@@ -51,6 +57,11 @@ final class Date implements ValueObjectInterface
         return $this->toNative() === $comparator->toNative();
     }
 
+    public function isEmpty(): bool
+    {
+        return $this->value === null;
+    }
+
     public function __toString(): string
     {
         return $this->toNative() ?? '';
@@ -58,6 +69,6 @@ final class Date implements ValueObjectInterface
 
     private function __construct(DateTimeImmutable $value = null)
     {
-        $this->value = $value ? $value->setTime(0, 0, 0) : $value;
+        $this->value = $value ? $value->setTime(0, 0, 0) : null;
     }
 }

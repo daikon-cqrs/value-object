@@ -25,6 +25,11 @@ final class NullValue implements MakeEmptyInterface, ValueObjectInterface
         return new self;
     }
 
+    public function isEmpty(): bool
+    {
+        return true;
+    }
+
     /** @return null */
     public function toNative()
     {
