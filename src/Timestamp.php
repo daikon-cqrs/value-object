@@ -74,11 +74,17 @@ final class Timestamp implements MakeEmptyInterface, ValueObjectInterface
         return new self($dateTime);
     }
 
-    /** @param null|string $value */
+    /** @param null|int|string $value */
     public static function fromNative($value): self
     {
-        Assertion::nullOrString($value, 'Trying to create Timestamp VO from unsupported value type.');
-        return empty($value) || $value === 'null' ? new self : self::fromString($value);
+        Assertion::nullOrSatisfy(
+            $value,
+            /** @param mixed $value */
+            fn($value): bool => is_string($value) || is_numeric($value),
+            'Trying to create Timestamp VO from unsupported value type.'
+        );
+
+        return empty($value) || $value === 'null' ? new self : self::fromString((string)$value);
     }
 
     public function toNative(): ?string

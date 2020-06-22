@@ -45,6 +45,7 @@ final class TimestampTest extends TestCase
     public function testToTime(): void
     {
         $this->assertEquals('1578687888', Timestamp::fromNative('1578687888')->toTime());
+        $this->assertSame(1578687889, Timestamp::fromNative(1578687889)->toTime());
     }
 
     public function testIsEmpty(): void
