@@ -45,7 +45,7 @@ final class Timestamp implements MakeEmptyInterface, ValueObjectInterface
 
     public function toTime(): int
     {
-        Assertion::false($this->isEmpty(), 'Cannot convert null to time.');
+        Assertion::false($this->isEmpty(), 'Cannot convert empty timestamp.');
         /** @psalm-suppress PossiblyNullReference */
         return $this->value->getTimestamp();
     }
@@ -67,7 +67,7 @@ final class Timestamp implements MakeEmptyInterface, ValueObjectInterface
         if (!$dateTime = DateTimeImmutable::createFromFormat($format, $date)) {
             $time = strtotime($date);
             if ($time === false || !$dateTime = new DateTimeImmutable('@'.$time)) {
-                throw new InvalidArgumentException('Invalid date string given to '.self::class);
+                throw new InvalidArgumentException('Invalid timestamp.');
             }
         }
 
@@ -81,7 +81,7 @@ final class Timestamp implements MakeEmptyInterface, ValueObjectInterface
             $value,
             /** @param mixed $value */
             fn($value): bool => is_string($value) || is_numeric($value),
-            'Trying to create Timestamp VO from unsupported value type.'
+            'Invalid timestamp.'
         );
 
         return empty($value) || $value === 'null' ? new self : self::fromString((string)$value);
@@ -129,7 +129,7 @@ final class Timestamp implements MakeEmptyInterface, ValueObjectInterface
     /** @param string $interval */
     public function modify($interval): self
     {
-        Assertion::false($this->isEmpty(), 'Cannot modify null Timestamp.');
+        Assertion::false($this->isEmpty(), 'Cannot modify empty Timestamp.');
         Assertion::string($interval);
         Assertion::notEmpty($interval);
         /** @psalm-suppress PossiblyNullReference */
