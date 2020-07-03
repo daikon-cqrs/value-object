@@ -26,7 +26,8 @@ final class TimestampTest extends TestCase
     public function testToNative(): void
     {
         $this->assertEquals(self::FIXED_TIMESTAMP_UTC, $this->timestamp->toNative());
-        $this->assertEquals(null, Timestamp::fromNative(null)->toNative());
+        $this->assertNull(Timestamp::fromNative(null)->toNative());
+        $this->assertNull(Timestamp::makeEmpty()->toNative());
     }
 
     public function testEquals(): void
@@ -56,7 +57,7 @@ final class TimestampTest extends TestCase
 
     public function testIsBefore(): void
     {
-        $nullTs = Timestamp::fromNative(null);
+        $nullTs = Timestamp::makeEmpty();
         $earlyTs = Timestamp::fromString(self::FIXED_TIMESTAMP_UTC);
         $lateTs = Timestamp::fromString(self::FIXED_LATE_TIMESTAMP_UTC);
         $this->assertTrue($nullTs->isBefore($earlyTs));
@@ -67,7 +68,7 @@ final class TimestampTest extends TestCase
 
     public function testIsAfter(): void
     {
-        $nullTs = Timestamp::fromNative(null);
+        $nullTs = Timestamp::makeEmpty();
         $earlyTs = Timestamp::fromString(self::FIXED_TIMESTAMP_UTC);
         $lateTs = Timestamp::fromString(self::FIXED_LATE_TIMESTAMP_UTC);
         $this->assertFalse($nullTs->isAfter($earlyTs));

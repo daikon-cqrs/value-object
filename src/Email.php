@@ -9,11 +9,10 @@
 namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
+use Daikon\Interop\MakeEmptyInterface;
 
-final class Email implements ValueObjectInterface
+final class Email implements MakeEmptyInterface, ValueObjectInterface
 {
-    private const EMPTY = '';
-
     private Text $localPart;
 
     private Text $domain;
@@ -23,19 +22,26 @@ final class Email implements ValueObjectInterface
     {
         Assertion::nullOrString($value, 'Trying to create Email VO from unsupported value type.');
         if (empty($value)) {
-            return new self(Text::fromNative(self::EMPTY), Text::fromNative(self::EMPTY));
+            return self::makeEmpty();
         }
         Assertion::email($value, 'Trying to create email from invalid string.');
         $parts = explode('@', $value);
-        return new self(Text::fromNative($parts[0]), Text::fromNative(trim($parts[1], '[]')));
+        return new self(Text::fromNative($parts[0]), Text::fromNative($parts[1]));
     }
 
-    public function toNative(): string
+    public static function makeEmpty(): self
     {
-        if ($this->localPart->isEmpty() && $this->domain->isEmpty()) {
-            return self::EMPTY;
-        }
-        return $this->localPart->toNative().'@'.$this->domain->toNative();
+        return new self(Text::makeEmpty(), Text::makeEmpty());
+    }
+
+    public function toNative(): ?string
+    {
+        return $this->isEmpty() ? null : $this->localPart.'@'.$this->domain;
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->localPart->isEmpty() || $this->domain->isEmpty();
     }
 
     /** @param self $comparator */
@@ -47,7 +53,7 @@ final class Email implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return $this->toNative();
+        return (string)$this->toNative();
     }
 
     public function getLocalPart(): Text

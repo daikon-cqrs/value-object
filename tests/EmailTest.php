@@ -46,6 +46,14 @@ final class EmailTest extends TestCase
         $this->assertEquals('example.com', (string)$this->email->getDomain());
     }
 
+    public function testMakeEmpty(): void
+    {
+        $email = Email::makeEmpty();
+        $this->assertTrue($email->isEmpty());
+        $this->assertNull($email->toNative());
+        $this->assertEquals('', (string)$email);
+    }
+
     protected function setUp(): void
     {
         $this->email = Email::fromNative(self::EMAIL);
