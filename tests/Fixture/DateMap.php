@@ -11,7 +11,7 @@ namespace Daikon\Tests\ValueObject\Fixture;
 use Daikon\ValueObject\ValueObjectMap;
 
 /**
- * @type Daikon\ValueObject\Date
+ * @type(Daikon\ValueObject\Date)
  */
 final class DateMap extends ValueObjectMap
 {

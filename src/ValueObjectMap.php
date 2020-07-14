@@ -8,10 +8,15 @@
 
 namespace Daikon\ValueObject;
 
-/**
- * @type Daikon\ValueObject\ValueObjectInterface
- */
-class ValueObjectMap implements ValueObjectMapInterface
+use Daikon\DataStructure\TypedMap;
+use Daikon\Interop\MakeEmptyInterface;
+
+class ValueObjectMap extends TypedMap implements MakeEmptyInterface, ValueObjectInterface
 {
-    use ValueObjectMapTrait;
+    use ValueObjectCollectionTrait;
+
+    public function __construct(iterable $objects = [])
+    {
+        $this->init($objects, static::inferValidTypes());
+    }
 }

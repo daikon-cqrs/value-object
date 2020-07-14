@@ -11,7 +11,7 @@ namespace Daikon\Tests\ValueObject\Fixture;
 use Daikon\ValueObject\ValueObjectList;
 
 /**
- * @type Daikon\ValueObject\Date::fromNative
+ * @type(Daikon\ValueObject\Date::fromNative)
  */
 final class DateList extends ValueObjectList
 {

@@ -9,42 +9,35 @@
 namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
-use Daikon\Interop\InvalidArgumentException;
-use ReflectionClass;
+use Daikon\Interop\SupportsAnnotations;
 
+/**
+ * @type(Daikon\ValueObject\ValueObjectInterface)
+ */
 trait ValueObjectCollectionTrait
 {
-    public function __construct(iterable $objects = [])
-    {
-        $validTypes = array_keys(static::getTypeFactories());
-        $this->init($objects, $validTypes);
-    }
+    use SupportsAnnotations;
 
+    /** @return static */
     public static function makeEmpty(): self
     {
         return new static;
+    }
+
+    public function isEmpty(): bool
+    {
+        return count($this) === 0;
     }
 
     /** @param static $comparator */
     public function equals($comparator): bool
     {
         $this->assertInitialized();
-        /**
-         * @psalm-suppress RedundantConditionGivenDocblockType
-         * @psalm-suppress DocblockTypeContradiction
-         */
-        Assertion::isInstanceOf(
-            $comparator,
-            static::class,
-            sprintf(
-                "Invalid comparator type '%s' given to ".static::class,
-                is_object($comparator) ? get_class($comparator) : @gettype($comparator)
-            )
-        );
+        Assertion::isInstanceOf($comparator, static::class);
 
         /** @var ValueObjectInterface $object */
-        foreach ($this as $index => $object) {
-            $comparison = $comparator->get($index, null);
+        foreach ($this as $key => $object) {
+            $comparison = $comparator->get($key, null);
             if (!$comparison || !$object->equals($comparison)) {
                 return false;
             }
@@ -60,17 +53,9 @@ trait ValueObjectCollectionTrait
     public static function fromNative($state): self
     {
         Assertion::nullOrIsTraversable($state, 'State provided to '.static::class.' must be null or iterable.');
-        $typeFactories = static::getTypeFactories();
-        // Override fromNative() to support multiple types
-        Assertion::count($typeFactories, 1, sprintf("Only 1 @type annotation is supported by '%s'.", static::class));
-        /** @var array $typeFactory */
-        $typeFactory = current($typeFactories);
-        Assertion::isCallable($typeFactory, sprintf(
-            "@type factory '%s' is not callable in '%s'.",
-            implode('::', $typeFactory),
-            static::class
-        ));
-
+        // Override fromNative() to support multiple types, currently first seen type factory is used.
+        $typeFactory = current(static::inferTypeFactories());
+        Assertion::isCallable($typeFactory, 'No valid type factory specified.');
         $objects = [];
         if (!is_null($state)) {
             foreach ($state as $key => $data) {
@@ -81,8 +66,7 @@ trait ValueObjectCollectionTrait
         return new static($objects);
     }
 
-    /** @return array */
-    public function toNative()
+    public function toNative(): array
     {
         $this->assertInitialized();
         $objects = [];
@@ -100,29 +84,5 @@ trait ValueObjectCollectionTrait
             $parts[] = $key.':'.(string)$object;
         }
         return implode(', ', $parts);
-    }
-
-    private static function getTypeFactories(): array
-    {
-        $classReflection = new ReflectionClass(static::class);
-        if (!preg_match_all('#@type\s+(?<type>.+)#', (string)$classReflection->getDocComment(), $matches)) {
-            throw new InvalidArgumentException(sprintf("Missing @type annotation on '%s'.", static::class));
-        }
-
-        $callables = [];
-        foreach ($matches['type'] as $type) {
-            $callable = array_map('trim', explode('::', $type));
-            Assertion::keyNotExists(
-                $callables,
-                $callable[0],
-                sprintf("Ambiguous @type annotation for '$callable[0]' in '%s'.", static::class)
-            );
-            if (!isset($callable[1])) {
-                $callable[1] = 'fromNative';
-            }
-            $callables[$callable[0]] = $callable;
-        }
-
-        return $callables;
     }
 }

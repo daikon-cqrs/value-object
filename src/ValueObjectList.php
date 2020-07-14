@@ -8,10 +8,15 @@
 
 namespace Daikon\ValueObject;
 
-/**
- * @type Daikon\ValueObject\ValueObjectInterface
- */
-class ValueObjectList implements ValueObjectListInterface
+use Daikon\DataStructure\TypedList;
+use Daikon\Interop\MakeEmptyInterface;
+
+class ValueObjectList extends TypedList implements MakeEmptyInterface, ValueObjectInterface
 {
-    use ValueObjectListTrait;
+    use ValueObjectCollectionTrait;
+
+    public function __construct(iterable $objects = [])
+    {
+        $this->init($objects, static::inferValidTypes());
+    }
 }

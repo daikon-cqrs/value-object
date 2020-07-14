@@ -9,7 +9,7 @@
 namespace Daikon\ValueObject;
 
 /**
- * @type Daikon\ValueObject\Text::fromNative
+ * @type(Daikon\ValueObject\Text)
  */
 final class TextMap extends ValueObjectMap
 {
