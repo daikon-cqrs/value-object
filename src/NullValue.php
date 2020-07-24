@@ -16,7 +16,7 @@ final class NullValue implements MakeEmptyInterface, ValueObjectInterface
     /** @param null|string $value  */
     public static function fromNative($value): self
     {
-        Assertion::nullOrRegex($value, '#^$#', 'Trying to create NullValue VO from unsupported value.');
+        Assertion::nullOrRegex($value, '/^$/', 'Trying to create NullValue VO from unsupported value.');
         return new self;
     }
 
