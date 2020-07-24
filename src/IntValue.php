@@ -9,8 +9,9 @@
 namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
+use Daikon\Interop\MakeEmptyInterface;
 
-final class IntValue implements ValueObjectInterface
+final class IntValue implements MakeEmptyInterface, ValueObjectInterface
 {
     private ?int $value;
 
@@ -19,21 +20,21 @@ final class IntValue implements ValueObjectInterface
         return $this->value === 0;
     }
 
-    public function isNull(): bool
+    public function isEmpty(): bool
     {
         return is_null($this->value);
     }
 
     public function add(self $amount): self
     {
-        Assertion::false($this->isNull() || $amount->isNull(), 'Operands must not be null.');
+        Assertion::false($this->isEmpty() || $amount->isEmpty(), 'Operands must not be null.');
         /** @psalm-suppress PossiblyNullOperand */
         return self::fromNative($this->toNative() + $amount->toNative());
     }
 
     public function subtract(self $amount): self
     {
-        Assertion::false($this->isNull() || $amount->isNull(), 'Operands must not be null.');
+        Assertion::false($this->isEmpty() || $amount->isEmpty(), 'Operands must not be null.');
         /** @psalm-suppress PossiblyNullOperand */
         return self::fromNative($this->toNative() - $amount->toNative());
     }
@@ -56,6 +57,11 @@ final class IntValue implements ValueObjectInterface
     public function isLessThan(self $comparator): bool
     {
         return $this->toNative() < $comparator->toNative();
+    }
+
+    public static function makeEmpty(): self
+    {
+        return new self;
     }
 
     public static function zero(): self
@@ -85,10 +91,10 @@ final class IntValue implements ValueObjectInterface
 
     public function __toString(): string
     {
-        return is_null($this->value) ? 'null' : (string)$this->value;
+        return $this->isEmpty() ? '' : (string)$this->value;
     }
 
-    private function __construct(?int $value)
+    private function __construct(int $value = null)
     {
         $this->value = $value;
     }
