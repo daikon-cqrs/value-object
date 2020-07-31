@@ -2,7 +2,7 @@
     "name": "daikon/value-object",
     "type": "library",
     "description": "Value-object components for Daikon-CQRS projects.",
-    "keywords": [ "value-object" ],
+    "keywords": ["value-object"],
     "homepage": "https://github.com/daikon-cqrs/value-object",
     "license": "MPL-2.0",
     "prefer-stable": true,
