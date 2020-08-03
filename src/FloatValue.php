@@ -9,22 +9,41 @@
 namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
+use Daikon\Interop\MakeEmptyInterface;
 
-final class FloatValue implements ValueObjectInterface
+final class FloatValue implements MakeEmptyInterface, ValueObjectInterface
 {
     private ?float $value;
 
-    public function isNull(): bool
+    /** @param null|int|float $value */
+    public static function fromNative($value): self
+    {
+        if (is_integer($value)) {
+            $value = floatval($value);
+        }
+        Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
+        /** @psalm-suppress PossiblyInvalidArgument */
+        return is_null($value) ? new self : new self(floatval($value));
+    }
+
+    public static function zero(): self
+    {
+        return new self(0.0);
+    }
+
+    public static function makeEmpty(): self
+    {
+        return new self;
+    }
+
+    public function isEmpty(): bool
     {
         return is_null($this->value);
     }
 
-    /** @param null|float $value */
-    public static function fromNative($value): self
+    public function isZero(): bool
     {
-        Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
-        /** @psalm-suppress PossiblyInvalidArgument */
-        return new self($value);
+        return $this->value === 0.0;
     }
 
     public function toNative(): ?float
@@ -44,7 +63,7 @@ final class FloatValue implements ValueObjectInterface
         return is_null($this->value) ? 'null' : (string)$this->value;
     }
 
-    private function __construct(?float $value)
+    private function __construct(?float $value = null)
     {
         $this->value = $value;
     }

@@ -8,6 +8,7 @@
 
 namespace Daikon\Tests\ValueObject;
 
+use Daikon\Interop\InvalidArgumentException;
 use Daikon\ValueObject\FloatValue;
 use PHPUnit\Framework\TestCase;
 
@@ -15,30 +16,66 @@ final class FloatValueTest extends TestCase
 {
     private const FIXED_DEC = 2.3;
 
-    private FloatValue $float;
-
     public function testToNative(): void
     {
-        $this->assertEquals(self::FIXED_DEC, $this->float->toNative());
-        $this->assertNull(FloatValue::fromNative(null)->toNative());
+        $float = FloatValue::fromNative(self::FIXED_DEC);
+        $this->assertSame(self::FIXED_DEC, $float->toNative());
+        $float = FloatValue::fromNative(null);
+        $this->assertNull($float->toNative());
+        $float = FloatValue::makeEmpty();
+        $this->assertNull($float->toNative());
+        $float = FloatValue::zero();
+        $this->assertSame(0.0, $float->toNative());
+        $float = FloatValue::fromNative(1);
+        $this->assertSame(1.0, $float->toNative());
     }
 
     public function testEquals(): void
     {
+        $float = FloatValue::fromNative(self::FIXED_DEC);
         $sameNumber = FloatValue::fromNative(self::FIXED_DEC);
-        $this->assertTrue($this->float->equals($sameNumber));
         $differentNumber = FloatValue::fromNative(4.2);
-        $this->assertFalse($this->float->equals($differentNumber));
+        $this->assertTrue($float->equals($sameNumber));
+        $this->assertFalse($float->equals($differentNumber));
+    }
+
+    public function testIsZero(): void
+    {
+        $float = FloatValue::fromNative(self::FIXED_DEC);
+        $this->assertFalse($float->isZero());
+        $float = FloatValue::zero();
+        $this->assertTrue($float->isZero());
+        $float = FloatValue::fromNative(0);
+        $this->assertTrue($float->isZero());
+        $this->assertTrue($float->isZero());
+        $float = FloatValue::fromNative(0.0);
+        $this->assertTrue($float->isZero());
+        $this->expectException(InvalidArgumentException::class);
+        $float = FloatValue::fromNative('0');
+    }
+
+    public function testIsEmpty(): void
+    {
+        $float = FloatValue::makeEmpty();
+        $this->assertTrue($float->isEmpty());
+        $float = FloatValue::fromNative(null);
+        $this->assertTrue($float->isEmpty());
+        $float = FloatValue::fromNative(0);
+        $this->assertFalse($float->isEmpty());
     }
 
     public function testToString(): void
     {
-        $this->assertEquals((string)self::FIXED_DEC, (string)$this->float);
-        $this->assertEquals('null', (string)FloatValue::fromNative(null));
-    }
-
-    protected function setUp(): void
-    {
-        $this->float = FloatValue::fromNative(self::FIXED_DEC);
+        $float = FloatValue::fromNative(self::FIXED_DEC);
+        $this->assertEquals((string)self::FIXED_DEC, (string)$float);
+        $float = FloatValue::fromNative(null);
+        $this->assertEquals('null', (string)$float);
+        $float = FloatValue::makeEmpty();
+        $this->assertEquals('null', (string)$float);
+        $float = FloatValue::zero();
+        $this->assertEquals('0', (string)$float);
+        $this->markTestIncomplete('This handling needs to be fixed.');
+        $float = FloatValue::fromNative(10.0);
+        $this->assertEquals('10.0', (string)$float);
     }
 }
