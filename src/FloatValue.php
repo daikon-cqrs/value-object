@@ -36,6 +36,11 @@ final class FloatValue implements MakeEmptyInterface, ValueObjectInterface
         return new self;
     }
 
+    public function format(int $decimals = 0, string $point = '.', string $separator = ','): string
+    {
+        return number_format($this->value, $decimals, $point, $separator);
+    }
+
     public function isEmpty(): bool
     {
         return is_null($this->value);
