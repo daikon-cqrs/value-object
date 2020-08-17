@@ -15,7 +15,7 @@ class ValueObjectList extends TypedList implements MakeEmptyInterface, ValueObje
 {
     use ValueObjectCollectionTrait;
 
-    public function __construct(iterable $objects = [])
+    final public function __construct(iterable $objects = [])
     {
         $this->init($objects, static::inferValidTypes());
     }

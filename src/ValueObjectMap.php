@@ -15,7 +15,7 @@ class ValueObjectMap extends TypedMap implements MakeEmptyInterface, ValueObject
 {
     use ValueObjectCollectionTrait;
 
-    public function __construct(iterable $objects = [])
+    final public function __construct(iterable $objects = [])
     {
         $this->init($objects, static::inferValidTypes());
     }
