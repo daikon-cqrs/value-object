@@ -1,14 +1,15 @@
 # Value Object
 
-![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/daikon/value-object)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/daikon-cqrs/value-object)
-![Packagist License](https://img.shields.io/packagist/l/daikon/value-object)
+![PHP Version Support](https://badgen.net/packagist/php/daikon/value-object?color=blue)
+[![Lines of Code](https://badgen.net/codeclimate/loc/daikon-cqrs/value-object)](https://codeclimate.com/github/daikon-cqrs/value-object/code?sort=-loc)
+[![Packagist](https://badgen.net/packagist/name/daikon/value-object?color=blue)](https://packagist.org/packages/daikon/value-object)
+[![License](https://badgen.net/github/license/daikon-cqrs/value-object)](https://github.com/daikon-cqrs/value-object/blob/master/LICENSE)
 
-[![Build Status](https://travis-ci.com/daikon-cqrs/value-object.svg?branch=master)](https://travis-ci.com/daikon-cqrs/value-object)
-[![Code Coverage](https://img.shields.io/codecov/c/github/daikon-cqrs/value-object)](https://codecov.io/gh/daikon-cqrs/value-object)
+[![Build Status](https://badgen.net/travis/daikon-cqrs/value-object?label=build)](https://travis-ci.com/daikon-cqrs/value-object)
+[![Code Coverage](https://badgen.net/codecov/c/github/daikon-cqrs/value-object)](https://codecov.io/gh/daikon-cqrs/value-object)
 [![Type Coverage](https://shepherd.dev/github/daikon-cqrs/value-object/coverage.svg)](https://shepherd.dev/github/daikon-cqrs/value-object)
-[![Libraries.io dependency status](https://img.shields.io/librariesio/github/daikon-cqrs/value-object)](https://libraries.io/github/daikon-cqrs/value-object)
-[![Scrutinizer code quality](https://img.shields.io/scrutinizer/quality/g/daikon-cqrs/value-object/master)](https://scrutinizer-ci.com/g/daikon-cqrs/value-object/?branch=master)
-[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/daikon-cqrs/value-object)](https://codeclimate.com/github/daikon-cqrs/value-object/maintainability)
+[![Code Quality](https://img.shields.io/scrutinizer/quality/g/daikon-cqrs/value-object/master)](https://scrutinizer-ci.com/g/daikon-cqrs/value-object/?branch=master)
+[![Code Maintainability](https://badgen.net/codeclimate/maintainability/daikon-cqrs/value-object)](https://codeclimate.com/github/daikon-cqrs/value-object)
+[![Dependabot](https://badgen.net/github/dependabot/daikon-cqrs/value-object)](https://github.com/daikon-cqrs/value-object/network/updates)
 
 Value-object components for Daikon-CQRS projects.
