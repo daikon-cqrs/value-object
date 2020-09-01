@@ -51,6 +51,7 @@ final class FloatValueTest extends TestCase
         $float = FloatValue::fromNative(0.0);
         $this->assertTrue($float->isZero());
         $this->expectException(InvalidArgumentException::class);
+        /** @psalm-suppress InvalidScalarArgument */
         $float = FloatValue::fromNative('0');
     }
 
@@ -69,13 +70,29 @@ final class FloatValueTest extends TestCase
         $float = FloatValue::fromNative(self::FIXED_DEC);
         $this->assertEquals((string)self::FIXED_DEC, (string)$float);
         $float = FloatValue::fromNative(null);
-        $this->assertEquals('null', (string)$float);
+        $this->assertSame('', (string)$float);
         $float = FloatValue::makeEmpty();
-        $this->assertEquals('null', (string)$float);
+        $this->assertSame('', (string)$float);
         $float = FloatValue::zero();
-        $this->assertEquals('0', (string)$float);
+        $this->assertSame('0', (string)$float);
+
         $this->markTestIncomplete('This handling needs to be fixed.');
         $float = FloatValue::fromNative(10.0);
         $this->assertEquals('10.0', (string)$float);
+    }
+
+    public function testFormat(): void
+    {
+        $float = FloatValue::fromNative(self::FIXED_DEC);
+        $this->assertSame('2.3', $float->format(1));
+        $this->assertSame('2.300', $float->format(3));
+        $this->assertSame('2,30', $float->format(2, ','));
+        $this->assertSame('2', $float->format(0, ','));
+        $largeFloat = FloatValue::fromNative(11111.00123);
+        $this->assertSame('11,111.0', $largeFloat->format(1));
+        $this->assertSame('11,111.001', $largeFloat->format(3));
+        $this->assertSame('11,111,00', $largeFloat->format(2, ','));
+        $this->assertSame('11.111,0', $largeFloat->format(1, ',', '.'));
+        $this->assertSame('11111001', $largeFloat->format(3, '', ''));
     }
 }

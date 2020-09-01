@@ -56,6 +56,7 @@ trait ValueObjectCollectionTrait
         // Override fromNative() to support multiple types, currently first seen type factory is used.
         $typeFactory = current(static::inferTypeFactories());
         Assertion::isCallable($typeFactory, 'No valid type factory specified.');
+        /** @var callable $typeFactory */
         $objects = [];
         if (!is_null($state)) {
             foreach ($state as $key => $data) {

@@ -26,9 +26,9 @@ final class IntValueTest extends TestCase
 
     public function testFromNative(): void
     {
-        $this->assertEquals(null, IntValue::fromNative(null)->toNative());
-        $this->assertEquals(null, IntValue::fromNative('')->toNative());
-        $this->assertEquals(0, IntValue::fromNative('0')->toNative());
+        $this->assertNull(IntValue::fromNative(null)->toNative());
+        $this->assertNull(IntValue::fromNative('')->toNative());
+        $this->assertSame(0, IntValue::fromNative('0')->toNative());
         $this->assertEquals(-1, IntValue::fromNative(-1)->toNative());
     }
 
@@ -36,15 +36,16 @@ final class IntValueTest extends TestCase
     {
         $empty = IntValue::makeEmpty();
         $this->assertNull($empty->toNative());
-        $this->assertEquals('', (string)$empty);
+        $this->assertSame('', (string)$empty);
         $this->assertTrue($empty->isEmpty());
     }
 
     public function testZero(): void
     {
         $zero = IntValue::zero();
-        $this->assertEquals(0, $zero->toNative());
-        $this->assertEquals('0', (string)$zero);
+        $this->assertSame(0, $zero->toNative());
+        $this->assertSame('0', (string)$zero);
+        $this->assertTrue($zero->isZero());
     }
 
     public function testEquals(): void
@@ -59,22 +60,46 @@ final class IntValueTest extends TestCase
     {
         $amount = IntValue::fromNative(10);
         $this->assertEquals(33, $this->integer->add($amount)->toNative());
+    }
+
+    public function testAddWithEmpty(): void
+    {
+        $amount = IntValue::fromNative(10);
         $this->expectException(InvalidArgumentException::class);
         $amount->add(IntValue::makeEmpty());
+    }
+
+    public function testAddOnEmpty(): void
+    {
+        $amount = IntValue::fromNative(10);
+        $this->expectException(InvalidArgumentException::class);
+        IntValue::makeEmpty()->add($amount);
     }
 
     public function testSubtract(): void
     {
         $amount = IntValue::fromNative(10);
         $this->assertEquals(13, $this->integer->subtract($amount)->toNative());
+    }
+
+    public function testSubtractWithEmpty(): void
+    {
+        $amount = IntValue::fromNative(10);
         $this->expectException(InvalidArgumentException::class);
         $amount->subtract(IntValue::makeEmpty());
+    }
+
+    public function testSubtractOnEmpty(): void
+    {
+        $amount = IntValue::fromNative(10);
+        $this->expectException(InvalidArgumentException::class);
+        IntValue::makeEmpty()->subtract($amount);
     }
 
     public function testToString(): void
     {
         $this->assertEquals((string)self::FIXED_NUM, (string)$this->integer);
-        $this->assertEquals('', (string)IntValue::makeEmpty());
+        $this->assertSame('', (string)IntValue::makeEmpty());
     }
 
     protected function setUp(): void

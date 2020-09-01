@@ -22,8 +22,7 @@ final class FloatValue implements MakeEmptyInterface, ValueObjectInterface
             $value = floatval($value);
         }
         Assertion::nullOrFloat($value, 'Trying to create FloatValue VO from unsupported value type.');
-        /** @psalm-suppress PossiblyInvalidArgument */
-        return is_null($value) ? new self : new self(floatval($value));
+        return $value === null ? new self : new self(floatval($value));
     }
 
     public static function zero(): self
@@ -38,16 +37,18 @@ final class FloatValue implements MakeEmptyInterface, ValueObjectInterface
 
     public function format(int $decimals = 0, string $point = '.', string $separator = ','): string
     {
+        $this->assertNotEmpty();
         return number_format($this->value, $decimals, $point, $separator);
     }
 
     public function isEmpty(): bool
     {
-        return is_null($this->value);
+        return $this->value === null;
     }
 
     public function isZero(): bool
     {
+        $this->assertNotEmpty();
         return $this->value === 0.0;
     }
 
@@ -65,7 +66,12 @@ final class FloatValue implements MakeEmptyInterface, ValueObjectInterface
 
     public function __toString(): string
     {
-        return is_null($this->value) ? 'null' : (string)$this->value;
+        return (string)$this->value;
+    }
+
+    private function assertNotEmpty(): void
+    {
+        Assertion::false($this->isEmpty(), 'Float is empty.');
     }
 
     private function __construct(?float $value = null)

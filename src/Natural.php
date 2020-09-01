@@ -11,7 +11,7 @@ namespace Daikon\ValueObject;
 use Daikon\Interop\Assertion;
 use Daikon\Interop\MakeEmptyInterface;
 
-final class IntValue implements MakeEmptyInterface, ValueObjectInterface
+final class Natural implements MakeEmptyInterface, ValueObjectInterface
 {
     private ?int $value;
 
@@ -82,7 +82,7 @@ final class IntValue implements MakeEmptyInterface, ValueObjectInterface
     public static function fromNative($value): self
     {
         $value = $value === '' ? null : $value;
-        Assertion::nullOrIntegerish($value, 'Trying to create IntValue VO from unsupported value type.');
+        Assertion::nullOrIntegerish($value, 'Trying to create Natural VO from unsupported value type.');
         return $value === null ? new self : new self((int)$value);
     }
 
@@ -105,11 +105,12 @@ final class IntValue implements MakeEmptyInterface, ValueObjectInterface
 
     private function assertNotEmpty(): void
     {
-        Assertion::false($this->isEmpty(), 'Int value is empty.');
+        Assertion::false($this->isEmpty(), 'Natural is empty.');
     }
 
     private function __construct(int $value = null)
     {
+        Assertion::nullOrGreaterOrEqualThan($value, 0, 'Must be at least 0.');
         $this->value = $value;
     }
 }
