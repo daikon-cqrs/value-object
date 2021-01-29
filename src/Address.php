@@ -9,8 +9,9 @@
 namespace Daikon\ValueObject;
 
 use Daikon\Interop\Assertion;
+use Daikon\Interop\MakeEmptyInterface;
 
-final class Address implements ValueObjectInterface
+final class Address implements ValueObjectInterface, MakeEmptyInterface
 {
     private ?string $name;
 
@@ -55,6 +56,16 @@ final class Address implements ValueObjectInterface
             'postcode' => $this->postcode,
             'country' => $this->country
         ]);
+    }
+
+    public static function makeEmpty(): self
+    {
+        return new self;
+    }
+
+    public function isEmpty(): bool
+    {
+        return empty($this->toNative());
     }
 
     public function __toString(): string
